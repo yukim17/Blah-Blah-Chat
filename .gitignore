@@ -1,0 +1,9 @@
+## Build generated
+build/
+DerivedData/
+
+## Other
+*.xccheckout
+*.xcscmblueprint
+xcuserdata/
+
