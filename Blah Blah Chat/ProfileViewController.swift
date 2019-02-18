@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate,
+UINavigationControllerDelegate {
     
+    let imagePicker = UIImagePickerController()
     @IBOutlet weak var profilePhotoImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var pickPhotoButton: UIButton!
@@ -27,6 +29,8 @@ class ProfileViewController: UIViewController {
         self.editButton.layer.cornerRadius = 10
         self.pickPhotoButton.layer.masksToBounds = true
         self.profilePhotoImageView.layer.masksToBounds = true
+        
+        imagePicker.delegate = self
         print(self.editButton.frame)
     }
     
@@ -42,9 +46,49 @@ class ProfileViewController: UIViewController {
         self.pickPhotoButton.layer.cornerRadius = cornerRadius
         self.profilePhotoImageView.layer.cornerRadius = cornerRadius
     }
+    
+    //MARK: - Delegates
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        self.profilePhotoImageView.contentMode = .scaleAspectFit
+        self.profilePhotoImageView.image = chosenImage
+        dismiss(animated:true, completion: nil)
+    }
+
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 
     @IBAction func pickPhoto(_ sender: Any) {
         print("Выбери изображение профиля")
+        let alert = UIAlertController(title: nil, message: "Выбери изображение профиля", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Сделать фото", style: .default) { (result : UIAlertAction) -> Void in
+            self.pickPhotoFromCamera()
+        })
+        alert.addAction(UIAlertAction(title: "Выбрать фото", style: .default) { (result : UIAlertAction) -> Void in
+            self.pickPhotoFromLibrary()
+        })
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func pickPhotoFromLibrary() {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        imagePicker.modalPresentationStyle = .popover
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func pickPhotoFromCamera() {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .camera
+        imagePicker.cameraCaptureMode = .photo
+        imagePicker.modalPresentationStyle = .fullScreen
+        present(imagePicker,animated: true,completion: nil)
     }
     
 }
