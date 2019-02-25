@@ -8,8 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate,
-UINavigationControllerDelegate {
+class ProfileViewController: UIViewController {
     
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var profilePhotoImageView: UIImageView!
@@ -47,20 +46,10 @@ UINavigationControllerDelegate {
         self.profilePhotoImageView.layer.cornerRadius = cornerRadius
     }
     
-    //MARK: - Delegates
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        self.profilePhotoImageView.contentMode = .scaleAspectFit
-        self.profilePhotoImageView.image = chosenImage
-        dismiss(animated:true, completion: nil)
+    @IBAction func backToChats(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
     }
-
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-
     @IBAction func pickPhoto(_ sender: Any) {
         print("Выбери изображение профиля")
         let alert = UIAlertController(title: nil, message: "Выбери изображение профиля", preferredStyle: UIAlertController.Style.actionSheet)
@@ -71,6 +60,7 @@ UINavigationControllerDelegate {
         alert.addAction(UIAlertAction(title: "Выбрать фото", style: .default) { (result : UIAlertAction) -> Void in
             self.pickPhotoFromLibrary()
         })
+        alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -84,12 +74,41 @@ UINavigationControllerDelegate {
     }
     
     func pickPhotoFromCamera() {
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .camera
-        imagePicker.cameraCaptureMode = .photo
-        imagePicker.modalPresentationStyle = .fullScreen
-        present(imagePicker,animated: true,completion: nil)
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .camera
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.modalPresentationStyle = .fullScreen
+            present(imagePicker,animated: true,completion: nil)
+        } else {
+            showNoCameraWarn()
+        }
     }
     
+    func showNoCameraWarn() {
+        let alertVC = UIAlertController(title: "No Camera", message: "Sorry, your device has no camera", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style:.default, handler: nil)
+        alertVC.addAction(okAction)
+        present(alertVC, animated: true, completion: nil)
+    }
+    
+}
+
+// MARK: - Image Picker Delegate Methods
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        self.profilePhotoImageView.contentMode = .scaleAspectFit
+        self.profilePhotoImageView.image = chosenImage
+        dismiss(animated:true, completion: nil)
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+
 }
 
