@@ -2,7 +2,7 @@
 //  MessageTableViewCell.swift
 //  Blah Blah Chat
 //
-//  Created by Екатерина on 22.02.2019.
+//  Created by Екатерина on 28.02.2019.
 //  Copyright © 2019 Wineapp. All rights reserved.
 //
 
@@ -19,35 +19,32 @@ protocol MessageCellConfiguration: class {
 
 class MessageTableViewCell: UITableViewCell {
     
-    @IBOutlet var message: UILabel!
+    @IBOutlet var messageLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.message.backgroundColor = UIColor.clear
+
+        // Configure the view for the selected state
     }
     
     func configureCell(message: String) {
         self.messageText = message
     }
-    
 }
 
 extension MessageTableViewCell: MessageCellConfiguration {
     
-   var messageText: String? {
+    var messageText: String? {
         get {
-            return message.text
+            return messageLabel.text
         }
         set {
-            self.message.text = newValue
+            self.messageLabel.text = newValue
         }
     }
 }

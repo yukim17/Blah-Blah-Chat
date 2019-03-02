@@ -22,11 +22,31 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         self.messagesTableView.delegate = self
         self.messagesTableView.dataSource = self
         
-//        let nib = UINib(nibName: "MessageTableViewCell", bundle: nil)
-//        self.messagesTableView.register(nib, forCellReuseIdentifier: "messageCell")
+        let nib = UINib(nibName: "IncomingMessageTableViewCell", bundle: nil)
+        self.messagesTableView.register(nib, forCellReuseIdentifier: "incomingMessage")
+        
+        let nib1 = UINib(nibName: "OutcomingMessageTableViewCell", bundle: nil)
+        self.messagesTableView.register(nib1, forCellReuseIdentifier: "outcomingMessage")
         
         self.messagesTableView.rowHeight = UITableView.automaticDimension
-        self.messagesTableView.estimatedRowHeight = 55
+        self.messagesTableView.estimatedRowHeight = 50
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        let indexPath = IndexPath(
+            row: self.messagesTableView.numberOfRows(inSection:  self.messagesTableView.numberOfSections - 1) - 1,
+            section: self.messagesTableView.numberOfSections - 1)
+        self.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+//        let indexPath = IndexPath(
+//            row: self.messagesTableView.numberOfRows(inSection:  self.messagesTableView.numberOfSections - 1) - 1,
+//            section: self.messagesTableView.numberOfSections - 1)
+//        self.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
 
@@ -51,9 +71,9 @@ extension ChatViewController: UITableViewDataSource {
         let message = self.messages[indexPath.row]
         var cell: MessageTableViewCell
         if message.1 == .incoming {
-            cell = tableView.dequeueReusableCell(withIdentifier: "incomingMessageCell", for: indexPath) as! MessageTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: "incomingMessage", for: indexPath) as! MessageTableViewCell
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "outcomingMessageCell", for: indexPath) as! MessageTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: "outcomingMessage", for: indexPath) as! MessageTableViewCell
         }
         
         cell.configureCell(message: message.0)
