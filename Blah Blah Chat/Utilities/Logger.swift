@@ -20,15 +20,21 @@ class Logger {
     
     static let shared = Logger()
     
-    func state(function: String = #function, moveFrom state1: ApplicationState, to state2: ApplicationState) {
+    func logState(function: String = #function, moveFrom state1: ApplicationState, to state2: ApplicationState) {
         #if DEBUG
             print("Application moved from \"\(state1.rawValue)\" to \"\(state2.rawValue)\": \(function)")
         #endif
     }
     
-    func state(function: String = #function, message: String) {
+    func logState(function: String = #function, message: String) {
         #if DEBUG
             print("View controller calls \(function): \(message)")
+        #endif
+    }
+    
+    func logThemeChanging(selectedTheme: UIColor) {
+        #if DEBUG
+        print("Selected color is \(selectedTheme.cgColor.components)")
         #endif
     }
 }

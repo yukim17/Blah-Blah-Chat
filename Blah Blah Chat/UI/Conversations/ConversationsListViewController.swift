@@ -48,6 +48,11 @@ class ConversationsListViewController: UIViewController {
         self.performSegue(withIdentifier: "viewProfile", sender: self)
     }
     
+    @IBAction func showThemeSettings(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "showThemes", sender: self)
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -60,6 +65,9 @@ class ConversationsListViewController: UIViewController {
                 self.offlineConversations[indexPath.row]
             vc.title = selectedItem.0
             self.convListTableView.deselectRow(at: indexPath, animated: true)
+        } else if segue.identifier == "showThemes" {
+            let vc = segue.destination as! ThemesViewController
+            vc.delegate = self
         }
     }
 
@@ -121,5 +129,14 @@ extension ConversationsListViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+extension ConversationsListViewController: ThemesViewControllerDelegate {
+    
+    func themesViewController(_ controller: ThemesViewController, didSelectTheme selectedTheme: UIColor) {
+        Logger.shared.logThemeChanging(selectedTheme: selectedTheme)
+        UINavigationBar.appearance().barTintColor = selectedTheme
+        //UserDefaults.standard.setColor(color: selectedTheme, forKey: "Theme")
+    }
     
 }
