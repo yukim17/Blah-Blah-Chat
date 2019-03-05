@@ -49,7 +49,11 @@ class ConversationsListViewController: UIViewController {
     }
     
     @IBAction func showThemeSettings(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "showThemes", sender: self)
+        #if DEBUG
+            self.performSegue(withIdentifier: "showThemesObjC", sender: self)
+        #else
+            self.performSegue(withIdentifier: "showThemesSwift", sender: self)
+        #endif
     }
     
     
@@ -65,9 +69,12 @@ class ConversationsListViewController: UIViewController {
                 self.offlineConversations[indexPath.row]
             vc.title = selectedItem.0
             self.convListTableView.deselectRow(at: indexPath, animated: true)
-        } else if segue.identifier == "showThemes" {
+        } else if segue.identifier == "showThemesObjC" {
             let vc = segue.destination as! ThemesViewController
             vc.delegate = self
+        } else if segue.identifier == "showThemesSwift" {
+            let vc = segue.destination as! ThemesViewControllerSwift
+            vc.closure = { [weak self] in self?.logThemeChanging }()
         }
     }
 
@@ -137,6 +144,15 @@ extension ConversationsListViewController: ThemesViewControllerDelegate {
         Logger.shared.logThemeChanging(selectedTheme: selectedTheme)
         UINavigationBar.appearance().barTintColor = selectedTheme
         //UserDefaults.standard.setColor(color: selectedTheme, forKey: "Theme")
+    }
+    
+    func logThemeChanging(selectedColor: UIColor) {
+        Logger.shared.logThemeChanging(selectedTheme: selectedColor)
+        UINavigationBar.appearance().barTintColor = selectedColor
+    }
+    
+    func setThemeColor(color: UIColor) {
+        UINavigationBar.appearance().barTintColor = color
     }
     
 }

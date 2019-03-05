@@ -48,11 +48,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIColor *lightThemeColor = [[UIColor alloc] initWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.0];
-    UIColor *darkThemeColor = [[UIColor alloc] initWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:1.0];
-    UIColor *champagneThemeColor = [[UIColor alloc] initWithRed:197.0f/255.0f green:179.0f/255.0f blue:88.0f/255.0f alpha:1.0];
+    UIColor *light = [[UIColor alloc] initWithRed:239.0f/255.0f green:239.0f/255.0f blue:244.0f/255.0f alpha:1.0];
+    UIColor *dark = [[UIColor alloc] initWithRed:75.0f/255.0f green:75.0f/255.0f blue:75.0f/255.0f alpha:1.0];
+    UIColor *lightBlue = [[UIColor alloc] initWithRed:219.0f/255.0f green:234.0f/255.0f blue:255.0f/255.0f alpha:1.0];
     
-    Themes *model = [[Themes alloc] initWithColorOne: lightThemeColor ColorTwo: darkThemeColor colorThree: champagneThemeColor];
+    Themes *model = [[Themes alloc] initWithColorOne: light ColorTwo: dark colorThree: lightBlue];
     [self setModel:model];
     [model release];
 }

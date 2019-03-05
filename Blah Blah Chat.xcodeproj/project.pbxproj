@@ -27,6 +27,7 @@
 		C4544F3F2229ACB700C926DA /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4544F3E2229ACB700C926DA /* PaddingLabel.swift */; };
 		C4544F44222BE4E400C926DA /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4544F43222BE4E400C926DA /* ThemesViewController.m */; };
 		C4544F47222C0ABF00C926DA /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = C4544F46222C0ABF00C926DA /* Themes.m */; };
+		C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		C4544F46222C0ABF00C926DA /* Themes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Themes.m; sourceTree = "<group>"; };
 		C4544F48222C0B2700C926DA /* ThemesViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewControllerDelegate.h; sourceTree = "<group>"; };
 		C4544F49222C0DF400C926DA /* Themes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Themes.h; sourceTree = "<group>"; };
+		C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewControllerSwift.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 		C4544F40222BE45E00C926DA /* Themes */ = {
 			isa = PBXGroup;
 			children = (
+				C4F84C59222E486200885D73 /* SwiftTheme */,
 				C4544F45222BF9FB00C926DA /* Model */,
 				C4544F41222BE4A800C926DA /* ThemesViewController.h */,
 				C4544F43222BE4E400C926DA /* ThemesViewController.m */,
@@ -187,6 +190,14 @@
 				C4544F49222C0DF400C926DA /* Themes.h */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C4F84C59222E486200885D73 /* SwiftTheme */ = {
+			isa = PBXGroup;
+			children = (
+				C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */,
+			);
+			path = SwiftTheme;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +279,7 @@
 				C403B897221DBA1F000A9DF6 /* ConversationsListViewController.swift in Sources */,
 				C403B8A722231298000A9DF6 /* ChatViewController.swift in Sources */,
 				C4078173221075B10024290A /* ProfileViewController.swift in Sources */,
+				C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */,
 				C403B8C8222864B1000A9DF6 /* MessageTableViewCell.swift in Sources */,
 				C4544F47222C0ABF00C926DA /* Themes.m in Sources */,
 				C403B8A52222E43D000A9DF6 /* TestData.swift in Sources */,

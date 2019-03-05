@@ -34,7 +34,7 @@ class Logger {
     
     func logThemeChanging(selectedTheme: UIColor) {
         #if DEBUG
-        print("Selected color is \(selectedTheme.cgColor.components)")
+        print("Selected color is \(String(describing: selectedTheme.cgColor.components))")
         #endif
     }
 }
