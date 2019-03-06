@@ -14,6 +14,7 @@
 @interface ThemesViewController: UIViewController {
     
     Themes *_model;
+    id<ThemesViewControllerDelegate> _delegate;
 }
 
 @property (nonatomic, retain)Themes *model;

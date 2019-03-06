@@ -40,15 +40,6 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         self.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-//        let indexPath = IndexPath(
-//            row: self.messagesTableView.numberOfRows(inSection:  self.messagesTableView.numberOfSections - 1) - 1,
-//            section: self.messagesTableView.numberOfSections - 1)
-//        self.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-    }
-    
 
     /*
     // MARK: - Navigation

@@ -15,23 +15,35 @@
         UIColor *themeOne = [[self model] theme1];
         [self.delegate themesViewController:self didSelectTheme:themeOne];
         self.view.backgroundColor = themeOne;
+        [self reloadView];
     }
 
     - (IBAction)selectTheme2:(id)sender {
         UIColor *themeTwo = [[self model] theme2];
         [self.delegate themesViewController:self didSelectTheme:themeTwo];
         self.view.backgroundColor = themeTwo;
+        [self reloadView];
     }
 
     - (IBAction)selectTheme3:(id)sender {
         UIColor *themeThree = [[self model] theme3];
         [self.delegate themesViewController:self didSelectTheme:themeThree];
         self.view.backgroundColor = themeThree;
+        [self reloadView];
     }
 
     - (IBAction)closeSettings:(id)sender {
         [self dismissViewControllerAnimated:true completion:nil];
     }
+
+-(void)reloadView {
+    for (UIWindow *window in [UIApplication sharedApplication].windows) {
+        for (UIView *view in window.subviews) {
+            [view removeFromSuperview];
+            [window addSubview:view];
+        }
+    }
+}
 
 - (void)setModel:(Themes *)model {
     if (_model != model) {
@@ -43,6 +55,14 @@
 
 - (Themes *)model {
     return _model;
+}
+
+-(void)setDelegate:(id<ThemesViewControllerDelegate>)delegate {
+    _delegate = delegate;
+}
+
+-(id<ThemesViewControllerDelegate>)delegate {
+    return _delegate;
 }
 
 - (void)viewDidLoad {

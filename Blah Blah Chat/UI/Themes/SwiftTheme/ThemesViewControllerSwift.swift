@@ -23,6 +23,7 @@ class ThemesViewControllerSwift: UIViewController {
             closure(selectedColor!)
         }
         self.view.backgroundColor = selectedColor
+        self.reloadView()
     }
     
     @IBAction func selectThemeTwo(_ sender: Any) {
@@ -31,7 +32,7 @@ class ThemesViewControllerSwift: UIViewController {
             closure(selectedColor!)
         }
         self.view.backgroundColor = selectedColor
-        UINavigationBar.appearance().tintColor = selectedColor
+        self.reloadView()
     }
     
     @IBAction func selectThemeThree(_ sender: Any) {
@@ -40,7 +41,16 @@ class ThemesViewControllerSwift: UIViewController {
             closure(selectedColor!)
         }
         self.view.backgroundColor = selectedColor
-        UINavigationBar.appearance().tintColor = selectedColor
+        self.reloadView()
+    }
+    
+    private func reloadView() {
+        for window in UIApplication.shared.windows {
+            for view in window.subviews {
+                view.removeFromSuperview()
+                window.addSubview(view)
+            }
+        }
     }
     
     @IBAction func closeView(_ sender: UIBarButtonItem) {

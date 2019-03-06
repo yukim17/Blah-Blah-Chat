@@ -224,7 +224,7 @@
                                     <navigationItem title="Themes Swift" id="bDO-un-Zqd">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cHf-vU-Nrl">
                                             <connections>
-                                                <action selector="closeView:" destination="Hh0-fJ-V7n" id="s4p-eF-aOk"/>
+                                                <action selector="closeView:" destination="Hh0-fJ-V7n" id="VhC-3S-F9n"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
