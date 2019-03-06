@@ -142,17 +142,17 @@ extension ConversationsListViewController: ThemesViewControllerDelegate {
     
     func themesViewController(_ controller: ThemesViewController, didSelectTheme selectedTheme: UIColor) {
         Logger.shared.logThemeChanging(selectedTheme: selectedTheme)
-        UINavigationBar.appearance().barTintColor = selectedTheme
-        //UserDefaults.standard.setColor(color: selectedTheme, forKey: "Theme")
+        setThemeColor(color: selectedTheme)
     }
     
     func logThemeChanging(selectedColor: UIColor) {
         Logger.shared.logThemeChanging(selectedTheme: selectedColor)
-        UINavigationBar.appearance().barTintColor = selectedColor
+        setThemeColor(color: selectedColor)
     }
     
     func setThemeColor(color: UIColor) {
         UINavigationBar.appearance().barTintColor = color
+        UserDefaults.standard.setColor(color: color, forKey: "ThemeColor")
     }
     
 }
