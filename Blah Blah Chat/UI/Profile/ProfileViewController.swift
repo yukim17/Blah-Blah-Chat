@@ -38,8 +38,6 @@ class ProfileViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        // В этом месте выделяются ресурсы под ViewController. В момент вызова метода view на Controller'e еще не существует, тем более элементов, которые располагаются на этой view. Поэтому вместо editButton обнаруживается nil.
-        //print(self.editButton.frame)
     }
     
     override func viewDidLoad() {
@@ -57,7 +55,12 @@ class ProfileViewController: UIViewController {
         self.profilePhotoImageView.layer.masksToBounds = true
         
         imagePicker.delegate = self
-        print(self.editButton.frame)
+        
+        self.desciptionTextField.delegate = self
+        self.nameTextField.delegate = self
+        
+        self.nameTextField.autocorrectionType = UITextAutocorrectionType.no
+        self.desciptionTextField.autocorrectionType = UITextAutocorrectionType.no
         
         self.editingMode = false
         self.loadFromFile()
@@ -82,13 +85,13 @@ class ProfileViewController: UIViewController {
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardHeight = keyboardFrame.cgRectValue.height
-            self.view.frame.origin.y = -keyboardHeight + 66
+            self.view.frame.origin.y = -keyboardHeight
             print("keyboard height is:" , keyboardHeight)
         }
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {
-        self.view.frame.origin.y = 64
+        self.view.frame.origin.y = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
