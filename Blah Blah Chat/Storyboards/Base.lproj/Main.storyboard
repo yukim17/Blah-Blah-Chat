@@ -477,6 +477,7 @@
                         <viewLayoutGuide key="safeArea" id="Vzj-3F-DMU"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="Xvd-cv-iXW" id="Yxw-6R-hUa"/>
                         <outlet property="desciptionTextField" destination="V51-1X-Wxc" id="N3G-9f-0mz"/>
                         <outlet property="editButton" destination="hUs-aP-bVV" id="4sb-bj-deJ"/>
                         <outlet property="gcdSaveButton" destination="vM5-xh-88q" id="bq8-4v-VHF"/>
@@ -487,6 +488,10 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NDB-po-KAa" sceneMemberID="firstResponder"/>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="Xvd-cv-iXW">
+                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
             </objects>
             <point key="canvasLocation" x="3024" y="112"/>
         </scene>
