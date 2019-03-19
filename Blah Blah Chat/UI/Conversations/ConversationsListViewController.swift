@@ -10,29 +10,17 @@ import UIKit
 
 class ConversationsListViewController: UIViewController {
     
-    // [name, message, date, online, hasUnreadMessages]
-    var onlineConversations: [(String, String?, Date?, Bool, Bool)] = []
-    var offlineConversations: [(String, String?, Date?, Bool, Bool)] = []
+    var onlineConversations = [Conversation]()
+    var offlineConversations = [Conversation]()
+
+    var communicationManager = CommunicationManager()
     
     @IBOutlet var convListTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.onlineConversations = conversationList.filter({ $0.3 }).sorted(by: { first, second in
-            return first.4
-        }).sorted(by: { first, second in
-            let value1 = first.2?.timeIntervalSinceNow ?? -Double(Int.max)
-            let value2 = second.2?.timeIntervalSinceNow ?? -Double(Int.max)
-            return value1 > value2
-        })
-        self.offlineConversations = conversationList.filter({ !$0.3 }).sorted(by: { first, second in
-            return first.4
-        }).sorted(by: { first, second in
-            let value1 = first.2?.timeIntervalSinceNow ?? -Double(Int.max)
-            let value2 = second.2?.timeIntervalSinceNow ?? -Double(Int.max)
-            return value1 > value2
-        })
+        self.communicationManager.usersDelegate = self
 
         self.convListTableView.delegate = self
         self.convListTableView.dataSource = self
@@ -67,7 +55,7 @@ class ConversationsListViewController: UIViewController {
             let selectedItem = indexPath.section == 0 ?
                 self.onlineConversations[indexPath.row] :
                 self.offlineConversations[indexPath.row]
-            vc.title = selectedItem.0
+            vc.title = selectedItem.name
             self.convListTableView.deselectRow(at: indexPath, animated: true)
         } else if segue.identifier == "showThemesObjC" {
             let vc = segue.destination as! ThemesViewController
@@ -85,6 +73,27 @@ class ConversationsListViewController: UIViewController {
 extension ConversationsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+        //tableView.deselectRow(at: indexPath, animated: true)
+        let selectedCell = tableView.cellForRow(at: indexPath) as! ConversationTableViewCell
+
+        switch indexPath.section {
+        case 0:
+            //conversationVC.isOnline = true
+            onlineConversations[indexPath.row].hasUnreadMessages = false
+        case 1:
+            //conversationVC.isOnline = false
+            offlineConversations[indexPath.row].hasUnreadMessages = false
+        default:
+            break
+        }
+        
+        //conversationVC.userName = selectedCell.name
+        //conversationVC.communicationManager = communicationManager
+        //communicationManager.chatDelegate = conversationVC
+        
+        //navigationController?.pushViewController(conversationVC, animated: true)
+        
         self.performSegue(withIdentifier: "showChat", sender: self)
     }
 }
@@ -118,7 +127,7 @@ extension ConversationsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ConversationTableViewCell
         
-        var conversation: (String, String?, Date?, Bool, Bool)
+        var conversation: Conversation
         
         if indexPath.section == 0 {
             conversation = onlineConversations[indexPath.row]
@@ -126,16 +135,10 @@ extension ConversationsListViewController: UITableViewDataSource {
             conversation = offlineConversations[indexPath.row]
         }
         
-        cell.configureCell(
-            name: conversation.0,
-            message: conversation.1,
-            date: conversation.2,
-            online: conversation.3,
-            hasUnreadMessages: conversation.4)
+        cell.configureCell(conversation: conversation)
         
         return cell
     }
-    
 }
 
 extension ConversationsListViewController: ThemesViewControllerDelegate {
@@ -153,6 +156,42 @@ extension ConversationsListViewController: ThemesViewControllerDelegate {
     func setThemeColor(color: UIColor) {
         UINavigationBar.appearance().barTintColor = color
         UserDefaults.standard.setColor(color: color, forKey: "ThemeColor")
+    }
+    
+}
+
+extension ConversationsListViewController: CommunicationManagerUsersDelegate {
+    
+    func dateAndName(_ left: Conversation, _ right: Conversation) -> Bool {
+        guard let leftDate = left.date,
+            let rightDate = right.date else {
+                return left.name! < right.name!
+                
+        }
+        return leftDate < rightDate
+    }
+    
+    func updateConversations(_ conversations: [Conversation]) {
+        for conversation in conversations {
+            guard let lastMessage = MessagesStorage.getMessages(from: conversation.name!)?.last else {
+                conversation.hasUnreadMessages = false
+                continue
+            }
+            conversation.message = lastMessage.messageText
+            conversation.date = lastMessage.date
+        }
+    }
+    
+    func updateConversationList() {
+        updateConversations(self.onlineConversations)
+        updateConversations(self.offlineConversations)
+        
+        self.onlineConversations = self.onlineConversations.sorted(by: dateAndName)
+        self.offlineConversations = self.offlineConversations.sorted(by: dateAndName)
+        
+        DispatchQueue.main.async {
+            self.convListTableView.reloadData()
+        }
     }
     
 }

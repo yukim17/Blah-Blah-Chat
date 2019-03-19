@@ -8,15 +8,6 @@
 
 import UIKit
 
-enum MessageType {
-    case incoming
-    case outcoming
-}
-
-protocol MessageCellConfiguration: class {
-    var messageText: String? {get set}
-}
-
 class MessageTableViewCell: UITableViewCell {
     
     @IBOutlet var messageLabel: UILabel!

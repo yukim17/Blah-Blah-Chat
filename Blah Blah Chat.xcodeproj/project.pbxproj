@@ -31,10 +31,17 @@
 		C4544F3F2229ACB700C926DA /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4544F3E2229ACB700C926DA /* PaddingLabel.swift */; };
 		C4544F44222BE4E400C926DA /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4544F43222BE4E400C926DA /* ThemesViewController.m */; };
 		C4544F47222C0ABF00C926DA /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = C4544F46222C0ABF00C926DA /* Themes.m */; };
+		C46A5E21223FEDD4007C89FB /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E20223FEDD4007C89FB /* Notification.swift */; };
+		C46A5E2422417490007C89FB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E232241748F007C89FB /* Conversation.swift */; };
+		C46A5E2622417B6B007C89FB /* MessageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E2522417B6B007C89FB /* MessageStorage.swift */; };
+		C46A5E2922417BE7007C89FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E2822417BE7007C89FB /* Message.swift */; };
 		C46B3EF422398D9F004D2005 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF322398D9F004D2005 /* ProfileHandler.swift */; };
 		C46B3EF622398FA6004D2005 /* LoadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF522398FA6004D2005 /* LoadOperation.swift */; };
 		C46B3EF822399039004D2005 /* SaveProfileOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF722399039004D2005 /* SaveProfileOperation.swift */; };
 		C46B3EFA2239930E004D2005 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF92239930E004D2005 /* ViewControllerExtension.swift */; };
+		C46B3EFD223A2F04004D2005 /* Prototcols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EFC223A2F04004D2005 /* Prototcols.swift */; };
+		C46B3EFF223B78C8004D2005 /* MultipeerCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */; };
+		C46B3F04223B7E72004D2005 /* CommunicationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3F03223B7E72004D2005 /* CommunicationManager.swift */; };
 		C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */; };
 		C4FB7110222F9A040068E1DF /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB710F222F9A040068E1DF /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
@@ -70,10 +77,17 @@
 		C4544F46222C0ABF00C926DA /* Themes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Themes.m; sourceTree = "<group>"; };
 		C4544F48222C0B2700C926DA /* ThemesViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewControllerDelegate.h; sourceTree = "<group>"; };
 		C4544F49222C0DF400C926DA /* Themes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Themes.h; sourceTree = "<group>"; };
+		C46A5E20223FEDD4007C89FB /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		C46A5E232241748F007C89FB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		C46A5E2522417B6B007C89FB /* MessageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStorage.swift; sourceTree = "<group>"; };
+		C46A5E2822417BE7007C89FB /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		C46B3EF322398D9F004D2005 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		C46B3EF522398FA6004D2005 /* LoadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadOperation.swift; sourceTree = "<group>"; };
 		C46B3EF722399039004D2005 /* SaveProfileOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveProfileOperation.swift; sourceTree = "<group>"; };
 		C46B3EF92239930E004D2005 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		C46B3EFC223A2F04004D2005 /* Prototcols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prototcols.swift; sourceTree = "<group>"; };
+		C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerCommunicator.swift; sourceTree = "<group>"; };
+		C46B3F03223B7E72004D2005 /* CommunicationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationManager.swift; sourceTree = "<group>"; };
 		C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewControllerSwift.swift; sourceTree = "<group>"; };
 		C4FB710F222F9A040068E1DF /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +121,7 @@
 				C4078182221079AD0024290A /* Logger.swift */,
 				C403B8A02222B757000A9DF6 /* Constants.swift */,
 				C403B8A42222E43D000A9DF6 /* TestData.swift */,
+				C46A5E2522417B6B007C89FB /* MessageStorage.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -118,6 +133,7 @@
 				C4544F3E2229ACB700C926DA /* PaddingLabel.swift */,
 				C4FB710F222F9A040068E1DF /* UserDefaults.swift */,
 				C46B3EF92239930E004D2005 /* ViewControllerExtension.swift */,
+				C46A5E20223FEDD4007C89FB /* Notification.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -133,6 +149,7 @@
 		C403B8C322286418000A9DF6 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				C46A5E2722417BD8007C89FB /* Model */,
 				C403B8A622231298000A9DF6 /* ChatViewController.swift */,
 				C4544F3C2229AC0F00C926DA /* IncomingMessageTableViewCell.xib */,
 				C403B8C6222864B1000A9DF6 /* MessageTableViewCell.swift */,
@@ -144,6 +161,7 @@
 		C403B8C422286423000A9DF6 /* Conversations */ = {
 			isa = PBXGroup;
 			children = (
+				C46A5E2222417476007C89FB /* Model */,
 				C403B89822206E70000A9DF6 /* ConversationTableViewCell.swift */,
 				C403B896221DBA1F000A9DF6 /* ConversationsListViewController.swift */,
 				C403B89922206E70000A9DF6 /* ConversationTableViewCell.xib */,
@@ -179,6 +197,7 @@
 		C407816F221075B10024290A /* Blah Blah Chat */ = {
 			isa = PBXGroup;
 			children = (
+				C46B3EFB223A2EC7004D2005 /* Communication */,
 				C446FCA8223575DA00C102C7 /* Data */,
 				C4078177221075B30024290A /* Assets.xcassets */,
 				C4078170221075B10024290A /* AppDelegate.swift */,
@@ -247,6 +266,40 @@
 			children = (
 				C4544F46222C0ABF00C926DA /* Themes.m */,
 				C4544F49222C0DF400C926DA /* Themes.h */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C46A5E2222417476007C89FB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C46A5E232241748F007C89FB /* Conversation.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C46A5E2722417BD8007C89FB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C46A5E2822417BE7007C89FB /* Message.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C46B3EFB223A2EC7004D2005 /* Communication */ = {
+			isa = PBXGroup;
+			children = (
+				C46B3F00223B79BF004D2005 /* Model */,
+				C46B3EFC223A2F04004D2005 /* Prototcols.swift */,
+				C46B3F03223B7E72004D2005 /* CommunicationManager.swift */,
+				C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */,
+			);
+			path = Communication;
+			sourceTree = "<group>";
+		};
+		C46B3F00223B79BF004D2005 /* Model */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -340,21 +393,28 @@
 				C46B3EFA2239930E004D2005 /* ViewControllerExtension.swift in Sources */,
 				C403B897221DBA1F000A9DF6 /* ConversationsListViewController.swift in Sources */,
 				C403B8A722231298000A9DF6 /* ChatViewController.swift in Sources */,
+				C46A5E2922417BE7007C89FB /* Message.swift in Sources */,
 				C4078173221075B10024290A /* ProfileViewController.swift in Sources */,
 				C4FB7110222F9A040068E1DF /* UserDefaults.swift in Sources */,
+				C46B3EFF223B78C8004D2005 /* MultipeerCommunicator.swift in Sources */,
+				C46A5E2622417B6B007C89FB /* MessageStorage.swift in Sources */,
+				C46B3EFD223A2F04004D2005 /* Prototcols.swift in Sources */,
 				C446FCA422345DF500C102C7 /* OperationDataManger.swift in Sources */,
 				C446FCA222345DDF00C102C7 /* GCDDataManager.swift in Sources */,
 				C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */,
 				C403B8C8222864B1000A9DF6 /* MessageTableViewCell.swift in Sources */,
+				C46A5E2422417490007C89FB /* Conversation.swift in Sources */,
 				C446FCA722345E4300C102C7 /* ProfileData.swift in Sources */,
 				C46B3EF622398FA6004D2005 /* LoadOperation.swift in Sources */,
 				C4544F47222C0ABF00C926DA /* Themes.m in Sources */,
 				C46B3EF822399039004D2005 /* SaveProfileOperation.swift in Sources */,
+				C46B3F04223B7E72004D2005 /* CommunicationManager.swift in Sources */,
 				C403B8A52222E43D000A9DF6 /* TestData.swift in Sources */,
 				C403B89A22206E70000A9DF6 /* ConversationTableViewCell.swift in Sources */,
 				C403B8A32222BBBA000A9DF6 /* DateExtension.swift in Sources */,
 				C403B895221DB8BC000A9DF6 /* MyCell.swift in Sources */,
 				C4078183221079AD0024290A /* Logger.swift in Sources */,
+				C46A5E21223FEDD4007C89FB /* Notification.swift in Sources */,
 				C4078171221075B10024290A /* AppDelegate.swift in Sources */,
 				C403B8A12222B757000A9DF6 /* Constants.swift in Sources */,
 				C4544F44222BE4E400C926DA /* ThemesViewController.m in Sources */,

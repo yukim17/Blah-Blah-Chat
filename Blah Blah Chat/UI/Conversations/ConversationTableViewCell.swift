@@ -8,14 +8,6 @@
 
 import UIKit
 
-protocol ConversationCellConfiguration: class {
-    var name: String? {get set}
-    var message: String? {get set}
-    var date: Date? {get set}
-    var online: Bool {get set}
-    var hasUnreadMessages: Bool {get set}
-}
-
 class ConversationTableViewCell: UITableViewCell {
     
     private var dateValue: Date?
@@ -38,18 +30,12 @@ class ConversationTableViewCell: UITableViewCell {
         super.prepareForReuse()
     }
     
-    func configureCell(
-        name: String,
-        message: String?,
-        date: Date?,
-        online: Bool,
-        hasUnreadMessages: Bool
-        ) {
-        self.name = name
-        self.message = message
-        self.date = date
-        self.online = online
-        self.hasUnreadMessages = hasUnreadMessages
+    func configureCell(conversation: Conversation) {
+        self.name = conversation.name
+        self.message = conversation.message
+        self.date = conversation.date
+        self.online = conversation.online
+        self.hasUnreadMessages = conversation.hasUnreadMessages
     }
     
 }

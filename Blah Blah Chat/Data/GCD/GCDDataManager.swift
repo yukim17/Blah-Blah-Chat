@@ -33,4 +33,10 @@ class GCDDataManager: DataManager {
             }
         }
     }
+    
+    func syncLoadProfile() -> ProfileData? {
+        return DispatchQueue.global(qos: .userInitiated).sync {
+            self.profileHandler.loadData()
+        }
+    }
 }
