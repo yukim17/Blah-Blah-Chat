@@ -33,8 +33,6 @@ class CommunicationManager {
     init() {
         self.communicator.delegate = self
     }
-    
-    
 }
 
 

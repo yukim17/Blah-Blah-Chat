@@ -24,7 +24,7 @@ class MultipeerCommunicator: NSObject, Communicator {
         let profile = GCDDataManager().syncLoadProfile()
         let username = profile?.name ?? "Anonymous"
         
-        self.advertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: ["userName" : username], serviceType: "tinkoff-chat")
+        self.advertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: ["userName" : myPeerID.displayName], serviceType: "tinkoff-chat")
         self.browser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: "tinkoff-chat")
         self.online = online
         

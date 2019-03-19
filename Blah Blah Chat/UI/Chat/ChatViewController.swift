@@ -8,16 +8,47 @@
 
 import UIKit
 
-class ChatViewController: UIViewController, UITableViewDelegate {
+class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var messagesTableView: UITableView!
+    @IBOutlet var messageTextField: UITextField!
+    @IBOutlet var sendButton: UIButton!
     
-    var messages: [(String, MessageType)] = []
+    var messages = [Message]()
+    var communicationManager: CommunicationManager!
+    var isOnline: Bool!
+    var userName: String = "" {
+        didSet {
+            self.title = userName
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.messages = generateRandomMessages()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        self.messagesTableView.addGestureRecognizer(tapGesture)
+        
+        self.messageTextField.delegate = self
+        
+        if let messages = MessagesStorage.getMessages(from: userName) {
+            self.messages = messages
+        }
+        if !isOnline {
+            userBecomeOffline()
+        }
+        
+        if messages.isEmpty {
+            let noMessagesLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+            noMessagesLabel.text = "Not messages yet"
+            noMessagesLabel.textColor = UIColor.darkGray
+            noMessagesLabel.font = UIFont.systemFont(ofSize: 14)
+            noMessagesLabel.textAlignment = .center
+            self.messagesTableView.tableHeaderView = noMessagesLabel
+        }
         
         self.messagesTableView.delegate = self
         self.messagesTableView.dataSource = self
@@ -34,23 +65,33 @@ class ChatViewController: UIViewController, UITableViewDelegate {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let indexPath = IndexPath(
-            row: self.messagesTableView.numberOfRows(inSection:  self.messagesTableView.numberOfSections - 1) - 1,
-            section: self.messagesTableView.numberOfSections - 1)
-        self.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        
+        self.messagesTableView.scrollToBottom(animated: false)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
-    */
 
+    @IBAction func sendTapped(_ sender: Any) {
+        guard let text = messageTextField.text,
+            text != "" else { return }
+        
+        messageTextField.text = ""
+        
+        communicationManager.communicator.sendMessage(string: text, to: userName) { (true, error) in
+            self.showAlert(title: "Error", message: error?.localizedDescription, retry: nil)
+        }
+        
+        let outcomingMessage = Message(messageText: text, date: Date.init(timeIntervalSinceNow: 0), type: .outcoming)
+        self.messages.append(outcomingMessage)
+        
+        self.messagesTableView.reloadData()
+        self.messagesTableView.scrollToBottom(animated: true)
+        
+        MessagesStorage.addMessage(from: userName, message: outcomingMessage)
+    }
 }
 
 extension ChatViewController: UITableViewDataSource {
@@ -61,15 +102,67 @@ extension ChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = self.messages[indexPath.row]
         var cell: MessageTableViewCell
-        if message.1 == .incoming {
+        if message.type == .incoming {
             cell = tableView.dequeueReusableCell(withIdentifier: "incomingMessage", for: indexPath) as! MessageTableViewCell
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "outcomingMessage", for: indexPath) as! MessageTableViewCell
         }
         
-        cell.configureCell(message: message.0)
+        cell.configureCell(message: message.messageText ?? "")
         
         return cell
     }
     
 }
+
+// MARK: - Show/hide Keyboard
+
+extension ChatViewController {
+    
+    @objc func hideKeyboard(_ sender: UITapGestureRecognizer) {
+        self.messageTextField.resignFirstResponder()
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            self.view.frame.origin.y = -keyboardRectangle.height
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        self.view.frame.origin.y = 0
+    }
+}
+
+extension ChatViewController: CommunicationManagerChatDelegate {
+    
+    func didRecieveMessage(message: Message) {
+        DispatchQueue.main.async {
+            if self.messages.isEmpty {
+                self.messagesTableView.tableHeaderView = nil
+            }
+            self.messages.append(message)
+            
+            self.messagesTableView.reloadData()
+            self.messagesTableView.scrollToBottom(animated: true)
+        }
+    }
+    
+    func userBecomeOffline() {
+        DispatchQueue.main.async {
+            self.sendButton.isEnabled = false
+            self.sendButton.alpha = 0.5
+        }
+    }
+    
+    func userBecomeOnline() {
+        DispatchQueue.main.async {
+            self.sendButton.isEnabled = true
+            self.sendButton.alpha = 1
+        }
+    }
+    
+    
+}
+

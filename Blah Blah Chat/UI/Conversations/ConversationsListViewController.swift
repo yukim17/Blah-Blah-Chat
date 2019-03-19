@@ -55,7 +55,22 @@ class ConversationsListViewController: UIViewController {
             let selectedItem = indexPath.section == 0 ?
                 self.onlineConversations[indexPath.row] :
                 self.offlineConversations[indexPath.row]
-            vc.title = selectedItem.name
+            vc.userName = selectedItem.name ?? ""
+            
+            switch indexPath.section {
+            case 0:
+                vc.isOnline = true
+                onlineConversations[indexPath.row].hasUnreadMessages = false
+            case 1:
+                vc.isOnline = false
+                offlineConversations[indexPath.row].hasUnreadMessages = false
+            default:
+                break
+            }
+            
+            vc.communicationManager = communicationManager
+            communicationManager.chatDelegate = vc
+    
             self.convListTableView.deselectRow(at: indexPath, animated: true)
         } else if segue.identifier == "showThemesObjC" {
             let vc = segue.destination as! ThemesViewController
@@ -73,27 +88,6 @@ class ConversationsListViewController: UIViewController {
 extension ConversationsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-        //tableView.deselectRow(at: indexPath, animated: true)
-        let selectedCell = tableView.cellForRow(at: indexPath) as! ConversationTableViewCell
-
-        switch indexPath.section {
-        case 0:
-            //conversationVC.isOnline = true
-            onlineConversations[indexPath.row].hasUnreadMessages = false
-        case 1:
-            //conversationVC.isOnline = false
-            offlineConversations[indexPath.row].hasUnreadMessages = false
-        default:
-            break
-        }
-        
-        //conversationVC.userName = selectedCell.name
-        //conversationVC.communicationManager = communicationManager
-        //communicationManager.chatDelegate = conversationVC
-        
-        //navigationController?.pushViewController(conversationVC, animated: true)
-        
         self.performSegue(withIdentifier: "showChat", sender: self)
     }
 }

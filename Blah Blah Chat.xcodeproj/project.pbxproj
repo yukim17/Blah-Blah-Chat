@@ -35,6 +35,7 @@
 		C46A5E2422417490007C89FB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E232241748F007C89FB /* Conversation.swift */; };
 		C46A5E2622417B6B007C89FB /* MessageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E2522417B6B007C89FB /* MessageStorage.swift */; };
 		C46A5E2922417BE7007C89FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E2822417BE7007C89FB /* Message.swift */; };
+		C46A5E2B2241865A007C89FB /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E2A2241865A007C89FB /* UITableView.swift */; };
 		C46B3EF422398D9F004D2005 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF322398D9F004D2005 /* ProfileHandler.swift */; };
 		C46B3EF622398FA6004D2005 /* LoadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF522398FA6004D2005 /* LoadOperation.swift */; };
 		C46B3EF822399039004D2005 /* SaveProfileOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF722399039004D2005 /* SaveProfileOperation.swift */; };
@@ -81,6 +82,7 @@
 		C46A5E232241748F007C89FB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		C46A5E2522417B6B007C89FB /* MessageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStorage.swift; sourceTree = "<group>"; };
 		C46A5E2822417BE7007C89FB /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		C46A5E2A2241865A007C89FB /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		C46B3EF322398D9F004D2005 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		C46B3EF522398FA6004D2005 /* LoadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadOperation.swift; sourceTree = "<group>"; };
 		C46B3EF722399039004D2005 /* SaveProfileOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveProfileOperation.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				C4FB710F222F9A040068E1DF /* UserDefaults.swift */,
 				C46B3EF92239930E004D2005 /* ViewControllerExtension.swift */,
 				C46A5E20223FEDD4007C89FB /* Notification.swift */,
+				C46A5E2A2241865A007C89FB /* UITableView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				C46A5E2622417B6B007C89FB /* MessageStorage.swift in Sources */,
 				C46B3EFD223A2F04004D2005 /* Prototcols.swift in Sources */,
 				C446FCA422345DF500C102C7 /* OperationDataManger.swift in Sources */,
+				C46A5E2B2241865A007C89FB /* UITableView.swift in Sources */,
 				C446FCA222345DDF00C102C7 /* GCDDataManager.swift in Sources */,
 				C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */,
 				C403B8C8222864B1000A9DF6 /* MessageTableViewCell.swift in Sources */,
