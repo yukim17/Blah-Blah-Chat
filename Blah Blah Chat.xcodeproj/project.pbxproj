@@ -43,6 +43,10 @@
 		C46B3EFD223A2F04004D2005 /* Prototcols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EFC223A2F04004D2005 /* Prototcols.swift */; };
 		C46B3EFF223B78C8004D2005 /* MultipeerCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */; };
 		C46B3F04223B7E72004D2005 /* CommunicationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3F03223B7E72004D2005 /* CommunicationManager.swift */; };
+		C47BCDCC2242AE9A00DD3019 /* ProfileModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C47BCDCA2242AE9A00DD3019 /* ProfileModel.xcdatamodeld */; };
+		C47BCDCE2242AFDC00DD3019 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47BCDCD2242AFDC00DD3019 /* CoreDataStack.swift */; };
+		C4AB56AF22467E4200E8FA24 /* ProfileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AB56AE22467E4200E8FA24 /* ProfileExtension.swift */; };
+		C4AB56B12246824300E8FA24 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AB56B02246824300E8FA24 /* StorageManager.swift */; };
 		C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */; };
 		C4FB7110222F9A040068E1DF /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB710F222F9A040068E1DF /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +94,10 @@
 		C46B3EFC223A2F04004D2005 /* Prototcols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prototcols.swift; sourceTree = "<group>"; };
 		C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerCommunicator.swift; sourceTree = "<group>"; };
 		C46B3F03223B7E72004D2005 /* CommunicationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationManager.swift; sourceTree = "<group>"; };
+		C47BCDCB2242AE9A00DD3019 /* ProfileModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProfileModel.xcdatamodel; sourceTree = "<group>"; };
+		C47BCDCD2242AFDC00DD3019 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		C4AB56AE22467E4200E8FA24 /* ProfileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileExtension.swift; sourceTree = "<group>"; };
+		C4AB56B02246824300E8FA24 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewControllerSwift.swift; sourceTree = "<group>"; };
 		C4FB710F222F9A040068E1DF /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -244,6 +252,7 @@
 		C446FCA8223575DA00C102C7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				C4AB56AC22467D0800E8FA24 /* CoreData */,
 				C446FC9F22345DB600C102C7 /* Operations */,
 				C446FCA022345DC200C102C7 /* GCD */,
 				C446FCA9223575F900C102C7 /* DataManager.swift */,
@@ -303,6 +312,25 @@
 		C46B3F00223B79BF004D2005 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C4AB56AC22467D0800E8FA24 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				C4AB56AD22467E2C00E8FA24 /* Model */,
+				C4AB56B02246824300E8FA24 /* StorageManager.swift */,
+				C47BCDCD2242AFDC00DD3019 /* CoreDataStack.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		C4AB56AD22467E2C00E8FA24 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C4AB56AE22467E4200E8FA24 /* ProfileExtension.swift */,
+				C47BCDCA2242AE9A00DD3019 /* ProfileModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -393,6 +421,7 @@
 				C46B3EF422398D9F004D2005 /* ProfileHandler.swift in Sources */,
 				C4544F3F2229ACB700C926DA /* PaddingLabel.swift in Sources */,
 				C446FCAA223575F900C102C7 /* DataManager.swift in Sources */,
+				C4AB56B12246824300E8FA24 /* StorageManager.swift in Sources */,
 				C46B3EFA2239930E004D2005 /* ViewControllerExtension.swift in Sources */,
 				C403B897221DBA1F000A9DF6 /* ConversationsListViewController.swift in Sources */,
 				C403B8A722231298000A9DF6 /* ChatViewController.swift in Sources */,
@@ -406,6 +435,7 @@
 				C46A5E2B2241865A007C89FB /* UITableView.swift in Sources */,
 				C446FCA222345DDF00C102C7 /* GCDDataManager.swift in Sources */,
 				C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */,
+				C47BCDCC2242AE9A00DD3019 /* ProfileModel.xcdatamodeld in Sources */,
 				C403B8C8222864B1000A9DF6 /* MessageTableViewCell.swift in Sources */,
 				C46A5E2422417490007C89FB /* Conversation.swift in Sources */,
 				C446FCA722345E4300C102C7 /* ProfileData.swift in Sources */,
@@ -416,8 +446,10 @@
 				C403B8A52222E43D000A9DF6 /* TestData.swift in Sources */,
 				C403B89A22206E70000A9DF6 /* ConversationTableViewCell.swift in Sources */,
 				C403B8A32222BBBA000A9DF6 /* DateExtension.swift in Sources */,
+				C4AB56AF22467E4200E8FA24 /* ProfileExtension.swift in Sources */,
 				C403B895221DB8BC000A9DF6 /* MyCell.swift in Sources */,
 				C4078183221079AD0024290A /* Logger.swift in Sources */,
+				C47BCDCE2242AFDC00DD3019 /* CoreDataStack.swift in Sources */,
 				C46A5E21223FEDD4007C89FB /* Notification.swift in Sources */,
 				C4078171221075B10024290A /* AppDelegate.swift in Sources */,
 				C403B8A12222B757000A9DF6 /* Constants.swift in Sources */,
@@ -634,6 +666,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C47BCDCA2242AE9A00DD3019 /* ProfileModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C47BCDCB2242AE9A00DD3019 /* ProfileModel.xcdatamodel */,
+			);
+			currentVersion = C47BCDCB2242AE9A00DD3019 /* ProfileModel.xcdatamodel */;
+			path = ProfileModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C4078165221075B10024290A /* Project object */;
 }
