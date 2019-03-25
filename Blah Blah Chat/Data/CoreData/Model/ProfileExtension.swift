@@ -51,4 +51,19 @@ extension Profile {
         }
         return profile
     }
+    
+    func updateFields(with data: ProfileData) {
+        if data.nameChanged {
+            self.name = data.name
+        }
+        if data.descriptionChanged {
+            self.descr = data.description
+        }
+        if data.photoChanged {
+            self.photo = data.photo?.pngData()
+        }
+        if data.nameChanged || data.descriptionChanged || data.photoChanged {
+            self.timestamp = Date()
+        }
+    }
 }

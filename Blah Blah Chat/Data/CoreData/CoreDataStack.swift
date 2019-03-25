@@ -11,7 +11,9 @@ import CoreData
 
 typealias SaveCompletion = () -> Void
 
-class CoredataStack {
+class CoreDataStack {
+    
+    static let shared = CoreDataStack()
     
     var storeURL: URL {
         let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -63,7 +65,7 @@ class CoredataStack {
             return
         }
         
-        context.perform {
+         context.perform {
             do {
                 try context.save()
             } catch {

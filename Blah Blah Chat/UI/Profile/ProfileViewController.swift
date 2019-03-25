@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController {
     }
     
     private var profile : ProfileData?
-    var dataManager: DataManager? = GCDDataManager()
+    var dataManager: DataManager? = StorageManager()
     
     private var saveChanges: ( () -> Void )?
     
@@ -151,7 +151,7 @@ class ProfileViewController: UIViewController {
             if titleOfButton == "Operation Save" {
                 self.dataManager = OperationDataManager()
             } else {
-                self.dataManager = GCDDataManager()
+                self.dataManager = StorageManager()
             }
             
             
