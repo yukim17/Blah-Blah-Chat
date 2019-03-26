@@ -60,12 +60,12 @@ class CoreDataStack {
     }()
     
     func performSave(with context: NSManagedObjectContext, completion: SaveCompletion? = nil) {
-        guard context.hasChanges else {
-            completion?()
-            return
-        }
+        context.perform {
+            guard context.hasChanges else {
+                completion?()
+                return
+            }
         
-         context.perform {
             do {
                 try context.save()
             } catch {
@@ -79,39 +79,4 @@ class CoreDataStack {
         }
     }
     
-//    func saveProfile(data: ProfileData, completion: @escaping (Bool) -> ()) {
-//        self.masterContet.perform {
-//            do {
-//                guard let appUser = NSEntityDescription.insertNewObject(forEntityName: "Profile", into: self.masterContet) as? Profile else {return}
-//                appUser.name = data.name
-//                appUser.timestamp = Date()
-//                try self.masterContet.save()
-//                completion(true)
-//            } catch {
-//                print(error)
-//                completion(false)
-//            }
-//        }
-//    }
-//
-//    func loadProfile(completion: @escaping (ProfileData?) -> ()) {
-//        var appUser: Profile?
-//        var profile: ProfileData?
-//        guard let fetchRequest = Profile.fetchRequestAppUser(model: self.coreCoordinator.managedObjectModel) else {
-//            completion(nil)
-//            return
-//        }
-//        do {
-//            let results = try self.masterContet.fetch(fetchRequest)
-//            if let foundUser = results.first {
-//                appUser = foundUser
-//            }
-//
-//        } catch {
-//            print(error)
-//        }
-//        profile = ProfileData(name: appUser?.name, descr: "", image: nil)
-//        completion(profile)
-//    }
-//
 }

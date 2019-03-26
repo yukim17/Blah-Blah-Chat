@@ -15,7 +15,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var pickPhotoButton: UIButton!
     @IBOutlet var gcdSaveButton: UIButton!
-    @IBOutlet var operationSaveButton: UIButton!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var desciptionTextField: UITextField!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -49,9 +48,6 @@ class ProfileViewController: UIViewController {
         self.gcdSaveButton.layer.borderWidth = 1.0
         self.gcdSaveButton.layer.borderColor = UIColor.black.cgColor;
         self.gcdSaveButton.layer.cornerRadius = 10
-        self.operationSaveButton.layer.borderWidth = 1.0
-        self.operationSaveButton.layer.borderColor = UIColor.black.cgColor;
-        self.operationSaveButton.layer.cornerRadius = 10
         self.pickPhotoButton.layer.masksToBounds = true
         self.profilePhotoImageView.layer.masksToBounds = true
         self.activityIndicator.center = self.view.center
@@ -146,15 +142,6 @@ class ProfileViewController: UIViewController {
             self.profile?.description = self.desciptionTextField.text
             self.profile?.photo = self.profilePhotoImageView.image
             
-            let titleOfButton = sender.titleLabel?.text
-            
-            if titleOfButton == "Operation Save" {
-                self.dataManager = OperationDataManager()
-            } else {
-                self.dataManager = StorageManager()
-            }
-            
-            
             self.dataManager?.saveProfile(data: self.profile!, completion: { (saveSucceeded : Bool) in
                 
                 self.activityIndicator.stopAnimating()
@@ -199,7 +186,6 @@ extension ProfileViewController {
         
         self.editButton.isHidden = editing
         self.gcdSaveButton.isHidden = !editing
-        self.operationSaveButton.isHidden = !editing
         
         self.nameTextField.isEnabled = editing
         self.desciptionTextField.isEnabled = editing
@@ -208,7 +194,6 @@ extension ProfileViewController {
     
     private func setEnabledState(enabled: Bool) {
         self.gcdSaveButton.isEnabled = enabled
-        self.operationSaveButton.isEnabled = enabled
     }
     
 }

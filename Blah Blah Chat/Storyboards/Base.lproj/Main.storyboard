@@ -426,27 +426,15 @@
                                 </items>
                             </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vM5-xh-88q">
-                                <rect key="frame" x="16" y="508" width="136" height="44"/>
+                                <rect key="frame" x="16" y="508" width="288" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="EiM-Y4-JaD"/>
                                 </constraints>
-                                <state key="normal" title="GCD Save">
+                                <state key="normal" title="Сохранить">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="saveButtonsPressed:" destination="izn-cT-aWz" eventType="touchUpInside" id="db3-W4-bLf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1bF-e3-OnW">
-                                <rect key="frame" x="168" y="508" width="136" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="nOv-rc-mh9"/>
-                                </constraints>
-                                <state key="normal" title="Operation Save">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveButtonsPressed:" destination="izn-cT-aWz" eventType="touchUpInside" id="uFV-pA-sDC"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Имя пользователя" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M10-AB-UPW">
@@ -482,7 +470,6 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Vzj-3F-DMU" firstAttribute="trailing" secondItem="1bF-e3-OnW" secondAttribute="trailing" constant="16" id="0vn-PW-j7b"/>
                             <constraint firstItem="Vzj-3F-DMU" firstAttribute="trailing" secondItem="WEk-pQ-dys" secondAttribute="trailing" constant="16" id="24t-nZ-o9Q"/>
                             <constraint firstItem="hUs-aP-bVV" firstAttribute="leading" secondItem="Vzj-3F-DMU" secondAttribute="leading" constant="16" id="8Pa-Gj-5e9"/>
                             <constraint firstItem="Vzj-3F-DMU" firstAttribute="bottom" secondItem="vM5-xh-88q" secondAttribute="bottom" constant="16" id="Btj-Yn-kGt"/>
@@ -498,14 +485,12 @@
                             <constraint firstItem="WEk-pQ-dys" firstAttribute="top" secondItem="Y9W-HM-MWT" secondAttribute="top" constant="47" id="YgB-nq-5Sq"/>
                             <constraint firstItem="Hor-FH-FDk" firstAttribute="width" secondItem="WEk-pQ-dys" secondAttribute="width" multiplier="0.3" id="Zle-gT-PKo"/>
                             <constraint firstItem="M10-AB-UPW" firstAttribute="leading" secondItem="Vzj-3F-DMU" secondAttribute="leading" constant="16" id="Zw8-Ec-foh"/>
-                            <constraint firstItem="vM5-xh-88q" firstAttribute="trailing" secondItem="Vzj-3F-DMU" secondAttribute="centerX" constant="-8" id="dyC-k6-jrX"/>
+                            <constraint firstItem="vM5-xh-88q" firstAttribute="trailing" secondItem="M10-AB-UPW" secondAttribute="trailing" id="dyC-k6-jrX"/>
                             <constraint firstItem="Vzj-3F-DMU" firstAttribute="bottom" secondItem="hUs-aP-bVV" secondAttribute="bottom" constant="16" id="fzz-D0-e0l"/>
                             <constraint firstItem="WEk-pQ-dys" firstAttribute="leading" secondItem="Vzj-3F-DMU" secondAttribute="leading" constant="16" id="l26-U7-XGd"/>
                             <constraint firstItem="Vzj-3F-DMU" firstAttribute="trailing" secondItem="V51-1X-Wxc" secondAttribute="trailing" constant="16" id="nh7-U7-Wjz"/>
                             <constraint firstItem="vM5-xh-88q" firstAttribute="leading" secondItem="Vzj-3F-DMU" secondAttribute="leading" constant="16" id="uY9-UO-k92"/>
                             <constraint firstItem="Vzj-3F-DMU" firstAttribute="trailing" secondItem="hUs-aP-bVV" secondAttribute="trailing" constant="16" id="veR-do-wpz"/>
-                            <constraint firstItem="1bF-e3-OnW" firstAttribute="leading" secondItem="Vzj-3F-DMU" secondAttribute="centerX" constant="8" id="wem-cK-qRD"/>
-                            <constraint firstItem="Vzj-3F-DMU" firstAttribute="bottom" secondItem="1bF-e3-OnW" secondAttribute="bottom" constant="16" id="xYB-4i-oXD"/>
                             <constraint firstItem="Vzj-3F-DMU" firstAttribute="trailing" secondItem="M10-AB-UPW" secondAttribute="trailing" constant="16" id="ycw-ab-0c2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vzj-3F-DMU"/>
@@ -516,7 +501,6 @@
                         <outlet property="editButton" destination="hUs-aP-bVV" id="4sb-bj-deJ"/>
                         <outlet property="gcdSaveButton" destination="vM5-xh-88q" id="bq8-4v-VHF"/>
                         <outlet property="nameTextField" destination="M10-AB-UPW" id="jsd-rT-VR4"/>
-                        <outlet property="operationSaveButton" destination="1bF-e3-OnW" id="moS-N5-2JF"/>
                         <outlet property="pickPhotoButton" destination="Hor-FH-FDk" id="0pN-X4-mc7"/>
                         <outlet property="profilePhotoImageView" destination="WEk-pQ-dys" id="B5K-RR-iln"/>
                     </connections>
