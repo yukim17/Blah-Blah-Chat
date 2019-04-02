@@ -9,12 +9,8 @@
 import UIKit
 
 class MyCell: UITableViewCell {
-    
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subtitle: UILabel!
-    
     func configure(title: String, subtitle: String) {
-    
     }
-    
 }

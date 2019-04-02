@@ -9,7 +9,7 @@
 import Foundation
 
 extension UserDefaults {
-    
+
     func setColor(color: UIColor?, forKey key: String) {
         var colorData: NSData?
         if let color = color {
@@ -17,7 +17,7 @@ extension UserDefaults {
         }
         set(colorData, forKey: key)
     }
-    
+
     func colorForKey(key: String) -> UIColor? {
         var color: UIColor?
         if let colorData = data(forKey: key) {
@@ -25,5 +25,5 @@ extension UserDefaults {
         }
         return color
     }
-    
+
 }

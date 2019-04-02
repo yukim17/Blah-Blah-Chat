@@ -10,16 +10,16 @@ import Foundation
 import CoreData
 
 extension Profile {
-    
+
     private static let templateName = "Profile"
-    
+
     static func insertProfile(in context: NSManagedObjectContext) -> Profile? {
         guard let profile = NSEntityDescription.insertNewObject(forEntityName: templateName, into: context) as? Profile else {
             return nil
         }
         return profile
     }
-    
+
     static func fetchRequestProfile(model: NSManagedObjectModel) -> NSFetchRequest<Profile>? {
         guard let fetchRequest = model.fetchRequestTemplate(forName: templateName) as? NSFetchRequest<Profile> else {
             print("No template with name \(templateName)")
@@ -27,7 +27,7 @@ extension Profile {
         }
         return fetchRequest
     }
-    
+
     static func findOrInsertProfile(in context: NSManagedObjectContext) -> Profile? {
         guard let model = context.persistentStoreCoordinator?.managedObjectModel else {
             print("Model is not available in context!")
@@ -51,7 +51,7 @@ extension Profile {
         }
         return profile
     }
-    
+
     func updateFields(with data: ProfileData) {
         if data.nameChanged {
             self.name = data.name

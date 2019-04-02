@@ -22,7 +22,7 @@ class Conversation: ConversationCellConfiguration {
     var date: Date?
     var online: Bool
     var hasUnreadMessages: Bool
-    
+
     init(name: String, message: String?, date: Date?, online: Bool, hasUnreadMessages: Bool) {
         self.name = name
         self.message = message
@@ -31,4 +31,3 @@ class Conversation: ConversationCellConfiguration {
         self.hasUnreadMessages = hasUnreadMessages
     }
 }
-

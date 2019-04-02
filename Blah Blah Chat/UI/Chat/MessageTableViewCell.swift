@@ -9,7 +9,7 @@
 import UIKit
 
 class MessageTableViewCell: UITableViewCell {
-    
+
     @IBOutlet var messageLabel: UILabel!
 
     override func awakeFromNib() {
@@ -22,14 +22,13 @@ class MessageTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
     func configureCell(message: String) {
         self.messageText = message
     }
 }
 
 extension MessageTableViewCell: MessageCellConfiguration {
-    
     var messageText: String? {
         get {
             return messageLabel.text

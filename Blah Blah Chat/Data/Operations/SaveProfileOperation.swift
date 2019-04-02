@@ -9,22 +9,19 @@
 import Foundation
 
 class SaveProfileOperation: Operation {
-    
+
     var saveSucceeded: Bool = true
     private let profileHandler: ProfileHandler
     private let profile: ProfileData
-    
-    
+
     init(profileHandler: ProfileHandler, profile: ProfileData) {
         self.profileHandler = profileHandler
         self.profile = profile
         super.init()
     }
-    
-    
+
     override func main() {
         if self.isCancelled { return }
         self.saveSucceeded = self.profileHandler.saveData(profile: self.profile)
     }
-    
 }

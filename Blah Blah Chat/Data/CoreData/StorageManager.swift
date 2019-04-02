@@ -9,10 +9,10 @@
 import Foundation
 
 class StorageManager: DataManager {
-    
+
     private var coreData = CoreDataStack.shared
-    
-    func saveProfile(data: ProfileData, completion: @escaping (Bool) -> ()) {
+
+    func saveProfile(data: ProfileData, completion: @escaping (Bool) -> Void) {
         coreData.saveContext.perform {
             guard let profile = Profile.findOrInsertProfile(in: self.coreData.saveContext) else {
                 completion(false)
@@ -26,8 +26,8 @@ class StorageManager: DataManager {
             }
         }
     }
-    
-    func loadProfile(completion: @escaping (ProfileData?) -> ()) {
+
+    func loadProfile(completion: @escaping (ProfileData?) -> Void) {
         let data: ProfileData = ProfileData()
         self.coreData.mainContext.perform {
             guard let profile = Profile.findOrInsertProfile(in: self.coreData.mainContext) else {
@@ -41,6 +41,5 @@ class StorageManager: DataManager {
             }
             completion(data)
         }
-        
     }
 }

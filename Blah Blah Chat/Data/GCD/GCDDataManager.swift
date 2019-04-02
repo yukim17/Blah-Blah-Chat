@@ -9,31 +9,29 @@
 import Foundation
 
 class GCDDataManager: DataManager {
-    
+
     let profileHandler: ProfileHandler = ProfileHandler()
-    
-    
-    func saveProfile(data: ProfileData, completion: @escaping (_ success: Bool) -> ()) {
+
+    func saveProfile(data: ProfileData, completion: @escaping (_ success: Bool) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             let saveSucceeded = self.profileHandler.saveData(profile: data)
-            
+
             DispatchQueue.main.async {
                 completion(saveSucceeded)
             }
         }
     }
-    
-    
-    func loadProfile(completion: @escaping (_ profile: ProfileData?) -> ()) {
+
+    func loadProfile(completion: @escaping (_ profile: ProfileData?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             let profile = self.profileHandler.loadData()
-            
+
             DispatchQueue.main.async {
                 completion(profile)
             }
         }
     }
-    
+
     func syncLoadProfile() -> ProfileData? {
         return DispatchQueue.global(qos: .userInitiated).sync {
             self.profileHandler.loadData()

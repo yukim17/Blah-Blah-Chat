@@ -21,16 +21,15 @@ class Message: MessageCellConfiguration {
     var messageText: String?
     var date: Date?
     var type: MessageType
-    
+
     init(messageText: String?, type: MessageType) {
         self.messageText = messageText
         self.type = type
     }
-    
+
     init(messageText: String?, date: Date?, type: MessageType) {
         self.messageText = messageText
         self.date = date
         self.type = type
     }
 }
-

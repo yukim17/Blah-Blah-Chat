@@ -1,0 +1,8 @@
+line_length: 200
+large_tuple: 5
+function_parameter_count: 6
+identifier_name:
+  excluded: # excluded via string array
+    - i
+
+use_nested_configs: true

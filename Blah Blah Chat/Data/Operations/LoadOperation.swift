@@ -9,17 +9,15 @@
 import Foundation
 
 class LoadProfileOperation: Operation {
-    
+
     private let profileHandler: ProfileHandler
     var profile: ProfileData?
-    
-    
+
     init(profileHandler: ProfileHandler) {
         self.profileHandler = profileHandler
         super.init()
     }
-    
-    
+
     override func main() {
         if self.isCancelled { return }
         self.profile = self.profileHandler.loadData()

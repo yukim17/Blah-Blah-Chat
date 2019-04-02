@@ -17,21 +17,21 @@ enum ApplicationState: String {
 }
 
 class Logger {
-    
+
     static let shared = Logger()
-    
+
     func logState(function: String = #function, moveFrom state1: ApplicationState, to state2: ApplicationState) {
         #if DEBUG
             print("Application moved from \"\(state1.rawValue)\" to \"\(state2.rawValue)\": \(function)")
         #endif
     }
-    
+
     func logState(function: String = #function, message: String) {
         #if DEBUG
             print("View controller calls \(function): \(message)")
         #endif
     }
-    
+
     func logThemeChanging(selectedTheme: UIColor) {
         #if DEBUG
         print("Selected color is \(String(describing: selectedTheme.cgColor.components))")

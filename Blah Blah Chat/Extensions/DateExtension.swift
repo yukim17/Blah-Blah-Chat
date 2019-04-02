@@ -9,7 +9,7 @@
 import Foundation
 
 extension Date {
-    
+
     func toShortFormatString() -> String {
         let calendar = Calendar.current
         let dateFormatter = DateFormatter()

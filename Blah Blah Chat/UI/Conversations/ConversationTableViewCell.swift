@@ -9,11 +9,11 @@
 import UIKit
 
 class ConversationTableViewCell: UITableViewCell {
-    
+
     private var dateValue: Date?
     private var onlineValue: Bool = false
     private var hasUnreadMessagesValue: Bool = false
-    
+
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
@@ -25,11 +25,11 @@ class ConversationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
     }
-    
+
     func configureCell(conversation: Conversation) {
         self.name = conversation.name
         self.message = conversation.message
@@ -37,11 +37,11 @@ class ConversationTableViewCell: UITableViewCell {
         self.online = conversation.online
         self.hasUnreadMessages = conversation.hasUnreadMessages
     }
-    
+
 }
 
 extension ConversationTableViewCell: ConversationCellConfiguration {
-    
+
     var name: String? {
         get {
             return self.nameLabel.text

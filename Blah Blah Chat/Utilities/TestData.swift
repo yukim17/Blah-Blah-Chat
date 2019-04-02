@@ -33,9 +33,9 @@ let conversationList: [(String, String?, Date?, Bool, Bool)] = [
 
 func randomString(length: Int) -> String {
     let characters = " abcdefghijklmnopqrstuvwxyz"
-    let randomCharacters = (0..<length).map{_ in characters.randomElement()!}
+    let randomCharacters = (0..<length).map { _ in characters.randomElement()! }
     let randomString = String(randomCharacters)
-    
+
     return randomString
 }
 
@@ -50,4 +50,3 @@ func generateRandomMessages() -> [(String, MessageType)] {
     }
     return resultArray
 }
-

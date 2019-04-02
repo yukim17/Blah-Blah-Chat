@@ -8,11 +8,9 @@
 
 import UIKit
 
-typealias retryActionType = ()->()
-
 extension UIViewController {
-    
-    func showAlert(title: String, message: String?, retry:(()->())?) {
+
+    func showAlert(title: String, message: String?, retry: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if let retry = retry {
             let retryAction = UIAlertAction(title: "Повторить", style: .default) { _ in
@@ -20,12 +18,10 @@ extension UIViewController {
             }
             alert.addAction(retryAction)
         }
-        
+
         let окAction  = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(окAction)
         present(alert, animated: true, completion: nil)
     }
-    
+
 }
-
-
