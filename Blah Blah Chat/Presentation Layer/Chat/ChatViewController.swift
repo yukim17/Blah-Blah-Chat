@@ -52,7 +52,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDele
         self.messagesTableView.rowHeight = UITableView.automaticDimension
         self.messagesTableView.estimatedRowHeight = 50
     }
-    
+
     func setupNoMessagesView() {
         if messages.isEmpty {
             let noMessagesLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
