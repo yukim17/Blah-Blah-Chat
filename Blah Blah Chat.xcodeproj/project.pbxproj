@@ -29,8 +29,6 @@
 		C446FCAA223575F900C102C7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446FCA9223575F900C102C7 /* DataManager.swift */; };
 		C4544F3D2229AC0F00C926DA /* IncomingMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4544F3C2229AC0F00C926DA /* IncomingMessageTableViewCell.xib */; };
 		C4544F3F2229ACB700C926DA /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4544F3E2229ACB700C926DA /* PaddingLabel.swift */; };
-		C4544F44222BE4E400C926DA /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4544F43222BE4E400C926DA /* ThemesViewController.m */; };
-		C4544F47222C0ABF00C926DA /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = C4544F46222C0ABF00C926DA /* Themes.m */; };
 		C46A5E21223FEDD4007C89FB /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E20223FEDD4007C89FB /* Notification.swift */; };
 		C46A5E2422417490007C89FB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E232241748F007C89FB /* Conversation.swift */; };
 		C46A5E2622417B6B007C89FB /* MessageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46A5E2522417B6B007C89FB /* MessageStorage.swift */; };
@@ -79,12 +77,7 @@
 		C446FCA9223575F900C102C7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C4544F3C2229AC0F00C926DA /* IncomingMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IncomingMessageTableViewCell.xib; sourceTree = "<group>"; };
 		C4544F3E2229ACB700C926DA /* PaddingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		C4544F41222BE4A800C926DA /* ThemesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewController.h; sourceTree = "<group>"; };
 		C4544F42222BE4E400C926DA /* Blah Blah Chat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blah Blah Chat-Bridging-Header.h"; sourceTree = "<group>"; };
-		C4544F43222BE4E400C926DA /* ThemesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThemesViewController.m; sourceTree = "<group>"; };
-		C4544F46222C0ABF00C926DA /* Themes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Themes.m; sourceTree = "<group>"; };
-		C4544F48222C0B2700C926DA /* ThemesViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewControllerDelegate.h; sourceTree = "<group>"; };
-		C4544F49222C0DF400C926DA /* Themes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Themes.h; sourceTree = "<group>"; };
 		C46A5E20223FEDD4007C89FB /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		C46A5E232241748F007C89FB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		C46A5E2522417B6B007C89FB /* MessageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStorage.swift; sourceTree = "<group>"; };
@@ -250,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				C446FCA622345E4300C102C7 /* ProfileData.swift */,
-				C46B3EF322398D9F004D2005 /* ProfileHandler.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -259,24 +251,10 @@
 			isa = PBXGroup;
 			children = (
 				C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */,
-				C4F84C59222E486200885D73 /* SwiftTheme */,
-				C4544F45222BF9FB00C926DA /* Model */,
-				C4544F41222BE4A800C926DA /* ThemesViewController.h */,
-				C4544F43222BE4E400C926DA /* ThemesViewController.m */,
 				C4544F42222BE4E400C926DA /* Blah Blah Chat-Bridging-Header.h */,
-				C4544F48222C0B2700C926DA /* ThemesViewControllerDelegate.h */,
 				C47FB404225E794C00732735 /* ThemesModel.swift */,
 			);
 			path = Themes;
-			sourceTree = "<group>";
-		};
-		C4544F45222BF9FB00C926DA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C4544F46222C0ABF00C926DA /* Themes.m */,
-				C4544F49222C0DF400C926DA /* Themes.h */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		C46A5E2222417476007C89FB /* Model */ = {
@@ -320,6 +298,7 @@
 		C47FB3F9225E777E00732735 /* Service Layer */ = {
 			isa = PBXGroup;
 			children = (
+				C47FB406225E841E00732735 /* ProfileLoader */,
 				C47FB3FE225E77D600732735 /* Communication */,
 				C47FB3FD225E77D100732735 /* Themes */,
 			);
@@ -378,6 +357,14 @@
 			path = Themes;
 			sourceTree = "<group>";
 		};
+		C47FB406225E841E00732735 /* ProfileLoader */ = {
+			isa = PBXGroup;
+			children = (
+				C46B3EF322398D9F004D2005 /* ProfileHandler.swift */,
+			);
+			path = ProfileLoader;
+			sourceTree = "<group>";
+		};
 		C4AB56AD22467E2C00E8FA24 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,13 +372,6 @@
 				C47BCDCA2242AE9A00DD3019 /* ProfileModel.xcdatamodeld */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		C4F84C59222E486200885D73 /* SwiftTheme */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SwiftTheme;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -536,7 +516,6 @@
 				C446FCA722345E4300C102C7 /* ProfileData.swift in Sources */,
 				C47FB400225E78A600732735 /* ThemesService.swift in Sources */,
 				C46B3EF622398FA6004D2005 /* LoadOperation.swift in Sources */,
-				C4544F47222C0ABF00C926DA /* Themes.m in Sources */,
 				C46B3EF822399039004D2005 /* SaveProfileOperation.swift in Sources */,
 				C46B3F04223B7E72004D2005 /* CommunicationManager.swift in Sources */,
 				C403B8A52222E43D000A9DF6 /* TestData.swift in Sources */,
@@ -549,7 +528,6 @@
 				C46A5E21223FEDD4007C89FB /* Notification.swift in Sources */,
 				C4078171221075B10024290A /* AppDelegate.swift in Sources */,
 				C403B8A12222B757000A9DF6 /* Constants.swift in Sources */,
-				C4544F44222BE4E400C926DA /* ThemesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

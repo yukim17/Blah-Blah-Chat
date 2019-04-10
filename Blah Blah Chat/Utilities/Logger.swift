@@ -6,7 +6,7 @@
 //  Copyright © 2019 Wineapp. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum ApplicationState: String {
     case notRunning = "not running"

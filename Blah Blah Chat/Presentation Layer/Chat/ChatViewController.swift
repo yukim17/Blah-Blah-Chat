@@ -32,8 +32,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDele
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         self.messagesTableView.addGestureRecognizer(tapGesture)
 
-        self.messageTextField.delegate = self
-
         if let messages = MessagesStorage.getMessages(from: userName) {
             self.messages = messages
         }
@@ -41,15 +39,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDele
             userBecomeOffline()
         }
 
-        if messages.isEmpty {
-            let noMessagesLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-            noMessagesLabel.text = "Not messages yet"
-            noMessagesLabel.textColor = UIColor.darkGray
-            noMessagesLabel.font = UIFont.systemFont(ofSize: 14)
-            noMessagesLabel.textAlignment = .center
-            self.messagesTableView.tableHeaderView = noMessagesLabel
-        }
-
+        self.messageTextField.delegate = self
         self.messagesTableView.delegate = self
         self.messagesTableView.dataSource = self
 
@@ -61,6 +51,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDele
 
         self.messagesTableView.rowHeight = UITableView.automaticDimension
         self.messagesTableView.estimatedRowHeight = 50
+    }
+    
+    func setupNoMessagesView() {
+        if messages.isEmpty {
+            let noMessagesLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+            noMessagesLabel.text = "Not messages yet"
+            noMessagesLabel.textColor = UIColor.darkGray
+            noMessagesLabel.font = UIFont.systemFont(ofSize: 14)
+            noMessagesLabel.textAlignment = .center
+            self.messagesTableView.tableHeaderView = noMessagesLabel
+        }
     }
 
     override func viewWillLayoutSubviews() {

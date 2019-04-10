@@ -38,11 +38,7 @@ class ConversationsListViewController: UIViewController {
     }
 
     @IBAction func showThemeSettings(_ sender: UIBarButtonItem) {
-        #if DEBUG
-            self.performSegue(withIdentifier: "showThemesObjC", sender: self)
-        #else
-            self.performSegue(withIdentifier: "showThemesSwift", sender: self)
-        #endif
+        self.performSegue(withIdentifier: "showThemesSwift", sender: self)
     }
 
     // MARK: - Navigation
@@ -72,9 +68,6 @@ class ConversationsListViewController: UIViewController {
             communicationManager.chatDelegate = viewController
 
             self.convListTableView.deselectRow(at: indexPath, animated: true)
-        } else if segue.identifier == "showThemesObjC" {
-            guard let viewController = segue.destination as? ThemesViewController else { return }
-            viewController.delegate = self
         } else if segue.identifier == "showThemesSwift" {
             guard let viewController = segue.destination as? ThemesViewControllerSwift else { return }
             viewController.closure = { [weak self] in self?.themesService.save }()
@@ -133,25 +126,6 @@ extension ConversationsListViewController: UITableViewDataSource {
 
         return cell
     }
-}
-
-extension ConversationsListViewController: ThemesViewControllerDelegate {
-
-    func themesViewController(_ controller: ThemesViewController, didSelectTheme selectedTheme: UIColor) {
-        Logger.shared.logThemeChanging(selectedTheme: selectedTheme)
-        setThemeColor(color: selectedTheme)
-    }
-
-    func logThemeChanging(selectedColor: UIColor) {
-        Logger.shared.logThemeChanging(selectedTheme: selectedColor)
-        setThemeColor(color: selectedColor)
-    }
-
-    func setThemeColor(color: UIColor) {
-        UINavigationBar.appearance().barTintColor = color
-        UserDefaults.standard.setColor(color: color, forKey: "ThemeColor")
-    }
-
 }
 
 extension ConversationsListViewController: CommunicationManagerUsersDelegate {
