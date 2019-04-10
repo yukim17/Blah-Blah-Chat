@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		231139EEEDBC2444733165A8 /* Pods_Blah_Blah_Chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E8A4CE0D1D1A6761DA412B3 /* Pods_Blah_Blah_Chat.framework */; };
-		C403B895221DB8BC000A9DF6 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C403B894221DB8BC000A9DF6 /* MyCell.swift */; };
 		C403B897221DBA1F000A9DF6 /* ConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C403B896221DBA1F000A9DF6 /* ConversationsListViewController.swift */; };
 		C403B89A22206E70000A9DF6 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C403B89822206E70000A9DF6 /* ConversationTableViewCell.swift */; };
 		C403B89B22206E70000A9DF6 /* ConversationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C403B89922206E70000A9DF6 /* ConversationTableViewCell.xib */; };
@@ -41,11 +40,13 @@
 		C46B3EF622398FA6004D2005 /* LoadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF522398FA6004D2005 /* LoadOperation.swift */; };
 		C46B3EF822399039004D2005 /* SaveProfileOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF722399039004D2005 /* SaveProfileOperation.swift */; };
 		C46B3EFA2239930E004D2005 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EF92239930E004D2005 /* ViewControllerExtension.swift */; };
-		C46B3EFD223A2F04004D2005 /* Prototcols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EFC223A2F04004D2005 /* Prototcols.swift */; };
 		C46B3EFF223B78C8004D2005 /* MultipeerCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */; };
 		C46B3F04223B7E72004D2005 /* CommunicationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46B3F03223B7E72004D2005 /* CommunicationManager.swift */; };
 		C47BCDCC2242AE9A00DD3019 /* ProfileModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C47BCDCA2242AE9A00DD3019 /* ProfileModel.xcdatamodeld */; };
 		C47BCDCE2242AFDC00DD3019 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47BCDCD2242AFDC00DD3019 /* CoreDataStack.swift */; };
+		C47FB400225E78A600732735 /* ThemesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47FB3FF225E78A600732735 /* ThemesService.swift */; };
+		C47FB403225E78CD00732735 /* ThemesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47FB402225E78CD00732735 /* ThemesManager.swift */; };
+		C47FB405225E794C00732735 /* ThemesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47FB404225E794C00732735 /* ThemesModel.swift */; };
 		C4AB56AF22467E4200E8FA24 /* ProfileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AB56AE22467E4200E8FA24 /* ProfileExtension.swift */; };
 		C4AB56B12246824300E8FA24 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AB56B02246824300E8FA24 /* StorageManager.swift */; };
 		C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */; };
@@ -55,7 +56,6 @@
 /* Begin PBXFileReference section */
 		43EE59D69EA69E984BEADB6F /* Pods-Blah Blah Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blah Blah Chat.release.xcconfig"; path = "Pods/Target Support Files/Pods-Blah Blah Chat/Pods-Blah Blah Chat.release.xcconfig"; sourceTree = "<group>"; };
 		4E8A4CE0D1D1A6761DA412B3 /* Pods_Blah_Blah_Chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blah_Blah_Chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C403B894221DB8BC000A9DF6 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		C403B896221DBA1F000A9DF6 /* ConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListViewController.swift; sourceTree = "<group>"; };
 		C403B89822206E70000A9DF6 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		C403B89922206E70000A9DF6 /* ConversationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationTableViewCell.xib; sourceTree = "<group>"; };
@@ -94,11 +94,13 @@
 		C46B3EF522398FA6004D2005 /* LoadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadOperation.swift; sourceTree = "<group>"; };
 		C46B3EF722399039004D2005 /* SaveProfileOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveProfileOperation.swift; sourceTree = "<group>"; };
 		C46B3EF92239930E004D2005 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
-		C46B3EFC223A2F04004D2005 /* Prototcols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prototcols.swift; sourceTree = "<group>"; };
 		C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerCommunicator.swift; sourceTree = "<group>"; };
 		C46B3F03223B7E72004D2005 /* CommunicationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationManager.swift; sourceTree = "<group>"; };
 		C47BCDCB2242AE9A00DD3019 /* ProfileModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProfileModel.xcdatamodel; sourceTree = "<group>"; };
 		C47BCDCD2242AFDC00DD3019 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		C47FB3FF225E78A600732735 /* ThemesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesService.swift; sourceTree = "<group>"; };
+		C47FB402225E78CD00732735 /* ThemesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesManager.swift; sourceTree = "<group>"; };
+		C47FB404225E794C00732735 /* ThemesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesModel.swift; sourceTree = "<group>"; };
 		C4AB56AE22467E4200E8FA24 /* ProfileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileExtension.swift; sourceTree = "<group>"; };
 		C4AB56B02246824300E8FA24 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewControllerSwift.swift; sourceTree = "<group>"; };
@@ -135,18 +137,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		C403B8BB222861C9000A9DF6 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				C4544F40222BE45E00C926DA /* Themes */,
-				C403B8C522286431000A9DF6 /* Profile */,
-				C403B8C422286423000A9DF6 /* Conversations */,
-				C403B8C322286418000A9DF6 /* Chat */,
-				C403B894221DB8BC000A9DF6 /* MyCell.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		C403B8BD222861F6000A9DF6 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,14 +159,6 @@
 				C46A5E2A2241865A007C89FB /* UITableView.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		C403B8C02228622C000A9DF6 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				C4078174221075B10024290A /* Main.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		C403B8C322286418000A9DF6 /* Chat */ = {
@@ -232,16 +214,16 @@
 		C407816F221075B10024290A /* Blah Blah Chat */ = {
 			isa = PBXGroup;
 			children = (
-				C46B3EFB223A2EC7004D2005 /* Communication */,
-				C446FCA8223575DA00C102C7 /* Data */,
+				C47FB3F9225E777E00732735 /* Service Layer */,
+				C47FB3F8225E777400732735 /* Core Layer */,
+				C47FB3F7225E776600732735 /* Presentation Layer */,
 				C4078177221075B30024290A /* Assets.xcassets */,
 				C4078170221075B10024290A /* AppDelegate.swift */,
 				C407817C221075B30024290A /* Info.plist */,
 				C4078179221075B30024290A /* LaunchScreen.storyboard */,
-				C403B8C02228622C000A9DF6 /* Storyboards */,
+				C4078174221075B10024290A /* Main.storyboard */,
 				C403B8BF2228621A000A9DF6 /* Extensions */,
 				C403B8BD222861F6000A9DF6 /* Utilities */,
-				C403B8BB222861C9000A9DF6 /* UI */,
 			);
 			path = "Blah Blah Chat";
 			sourceTree = "<group>";
@@ -273,26 +255,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		C446FCA8223575DA00C102C7 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				C4AB56AC22467D0800E8FA24 /* CoreData */,
-				C446FC9F22345DB600C102C7 /* Operations */,
-				C446FCA022345DC200C102C7 /* GCD */,
-				C446FCA9223575F900C102C7 /* DataManager.swift */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		C4544F40222BE45E00C926DA /* Themes */ = {
 			isa = PBXGroup;
 			children = (
+				C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */,
 				C4F84C59222E486200885D73 /* SwiftTheme */,
 				C4544F45222BF9FB00C926DA /* Model */,
 				C4544F41222BE4A800C926DA /* ThemesViewController.h */,
 				C4544F43222BE4E400C926DA /* ThemesViewController.m */,
 				C4544F42222BE4E400C926DA /* Blah Blah Chat-Bridging-Header.h */,
 				C4544F48222C0B2700C926DA /* ThemesViewControllerDelegate.h */,
+				C47FB404225E794C00732735 /* ThemesModel.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -322,32 +295,87 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		C46B3EFB223A2EC7004D2005 /* Communication */ = {
+		C47FB3F7225E776600732735 /* Presentation Layer */ = {
 			isa = PBXGroup;
 			children = (
-				C46B3F00223B79BF004D2005 /* Model */,
-				C46B3EFC223A2F04004D2005 /* Prototcols.swift */,
-				C46B3F03223B7E72004D2005 /* CommunicationManager.swift */,
+				C4544F40222BE45E00C926DA /* Themes */,
+				C403B8C522286431000A9DF6 /* Profile */,
+				C403B8C422286423000A9DF6 /* Conversations */,
+				C403B8C322286418000A9DF6 /* Chat */,
+			);
+			path = "Presentation Layer";
+			sourceTree = "<group>";
+		};
+		C47FB3F8225E777400732735 /* Core Layer */ = {
+			isa = PBXGroup;
+			children = (
+				C47FB401225E78BB00732735 /* Themes */,
+				C47FB3FC225E77C200732735 /* Multithreading */,
+				C47FB3FB225E77B400732735 /* Core Data */,
+				C47FB3FA225E77AD00732735 /* Multipeer */,
+			);
+			path = "Core Layer";
+			sourceTree = "<group>";
+		};
+		C47FB3F9225E777E00732735 /* Service Layer */ = {
+			isa = PBXGroup;
+			children = (
+				C47FB3FE225E77D600732735 /* Communication */,
+				C47FB3FD225E77D100732735 /* Themes */,
+			);
+			path = "Service Layer";
+			sourceTree = "<group>";
+		};
+		C47FB3FA225E77AD00732735 /* Multipeer */ = {
+			isa = PBXGroup;
+			children = (
 				C46B3EFE223B78C8004D2005 /* MultipeerCommunicator.swift */,
 			);
-			path = Communication;
+			path = Multipeer;
 			sourceTree = "<group>";
 		};
-		C46B3F00223B79BF004D2005 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		C4AB56AC22467D0800E8FA24 /* CoreData */ = {
+		C47FB3FB225E77B400732735 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
 				C4AB56AD22467E2C00E8FA24 /* Model */,
 				C4AB56B02246824300E8FA24 /* StorageManager.swift */,
 				C47BCDCD2242AFDC00DD3019 /* CoreDataStack.swift */,
 			);
-			path = CoreData;
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		C47FB3FC225E77C200732735 /* Multithreading */ = {
+			isa = PBXGroup;
+			children = (
+				C446FC9F22345DB600C102C7 /* Operations */,
+				C446FCA022345DC200C102C7 /* GCD */,
+				C446FCA9223575F900C102C7 /* DataManager.swift */,
+			);
+			path = Multithreading;
+			sourceTree = "<group>";
+		};
+		C47FB3FD225E77D100732735 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				C47FB3FF225E78A600732735 /* ThemesService.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
+		C47FB3FE225E77D600732735 /* Communication */ = {
+			isa = PBXGroup;
+			children = (
+				C46B3F03223B7E72004D2005 /* CommunicationManager.swift */,
+			);
+			path = Communication;
+			sourceTree = "<group>";
+		};
+		C47FB401225E78BB00732735 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				C47FB402225E78CD00732735 /* ThemesManager.swift */,
+			);
+			path = Themes;
 			sourceTree = "<group>";
 		};
 		C4AB56AD22467E2C00E8FA24 /* Model */ = {
@@ -362,7 +390,6 @@
 		C4F84C59222E486200885D73 /* SwiftTheme */ = {
 			isa = PBXGroup;
 			children = (
-				C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */,
 			);
 			path = SwiftTheme;
 			sourceTree = "<group>";
@@ -493,12 +520,12 @@
 				C46B3EFA2239930E004D2005 /* ViewControllerExtension.swift in Sources */,
 				C403B897221DBA1F000A9DF6 /* ConversationsListViewController.swift in Sources */,
 				C403B8A722231298000A9DF6 /* ChatViewController.swift in Sources */,
+				C47FB403225E78CD00732735 /* ThemesManager.swift in Sources */,
 				C46A5E2922417BE7007C89FB /* Message.swift in Sources */,
 				C4078173221075B10024290A /* ProfileViewController.swift in Sources */,
 				C4FB7110222F9A040068E1DF /* UserDefaults.swift in Sources */,
 				C46B3EFF223B78C8004D2005 /* MultipeerCommunicator.swift in Sources */,
 				C46A5E2622417B6B007C89FB /* MessageStorage.swift in Sources */,
-				C46B3EFD223A2F04004D2005 /* Prototcols.swift in Sources */,
 				C446FCA422345DF500C102C7 /* OperationDataManger.swift in Sources */,
 				C46A5E2B2241865A007C89FB /* UITableView.swift in Sources */,
 				C446FCA222345DDF00C102C7 /* GCDDataManager.swift in Sources */,
@@ -507,15 +534,16 @@
 				C403B8C8222864B1000A9DF6 /* MessageTableViewCell.swift in Sources */,
 				C46A5E2422417490007C89FB /* Conversation.swift in Sources */,
 				C446FCA722345E4300C102C7 /* ProfileData.swift in Sources */,
+				C47FB400225E78A600732735 /* ThemesService.swift in Sources */,
 				C46B3EF622398FA6004D2005 /* LoadOperation.swift in Sources */,
 				C4544F47222C0ABF00C926DA /* Themes.m in Sources */,
 				C46B3EF822399039004D2005 /* SaveProfileOperation.swift in Sources */,
 				C46B3F04223B7E72004D2005 /* CommunicationManager.swift in Sources */,
 				C403B8A52222E43D000A9DF6 /* TestData.swift in Sources */,
+				C47FB405225E794C00732735 /* ThemesModel.swift in Sources */,
 				C403B89A22206E70000A9DF6 /* ConversationTableViewCell.swift in Sources */,
 				C403B8A32222BBBA000A9DF6 /* DateExtension.swift in Sources */,
 				C4AB56AF22467E4200E8FA24 /* ProfileExtension.swift in Sources */,
-				C403B895221DB8BC000A9DF6 /* MyCell.swift in Sources */,
 				C4078183221079AD0024290A /* Logger.swift in Sources */,
 				C47BCDCE2242AFDC00DD3019 /* CoreDataStack.swift in Sources */,
 				C46A5E21223FEDD4007C89FB /* Notification.swift in Sources */,
@@ -682,7 +710,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "co.wineapp.Blah-Blah-Chat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "Blah Blah Chat/UI/Themes/Blah Blah Chat-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Blah Blah Chat/Presentation Layer/Themes/Blah Blah Chat-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -708,7 +736,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "co.wineapp.Blah-Blah-Chat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Blah Blah Chat/UI/Themes/Blah Blah Chat-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Blah Blah Chat/Presentation Layer/Themes/Blah Blah Chat-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

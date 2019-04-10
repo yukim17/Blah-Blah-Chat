@@ -14,14 +14,15 @@ class ConversationsListViewController: UIViewController {
     var offlineConversations = [Conversation]()
 
     var communicationManager = CommunicationManager()
+    let themesService = ThemesService()
 
     @IBOutlet var convListTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.themesService.load()
         self.communicationManager.usersDelegate = self
-
         self.convListTableView.delegate = self
         self.convListTableView.dataSource = self
 
@@ -76,7 +77,7 @@ class ConversationsListViewController: UIViewController {
             viewController.delegate = self
         } else if segue.identifier == "showThemesSwift" {
             guard let viewController = segue.destination as? ThemesViewControllerSwift else { return }
-            viewController.closure = { [weak self] in self?.logThemeChanging }()
+            viewController.closure = { [weak self] in self?.themesService.save }()
         }
     }
 

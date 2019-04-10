@@ -9,6 +9,12 @@
 import Foundation
 import MultipeerConnectivity
 
+protocol Communicator {
+    func sendMessage(string: String, to userID: String, completionHandler: ((_ success: Bool, _ error: Error?) -> Void)?)
+    var delegate: CommunicatorDelegate? {get set}
+    var online: Bool {get set}
+}
+
 class MultipeerCommunicator: NSObject, Communicator {
 
     weak var delegate: CommunicatorDelegate?
