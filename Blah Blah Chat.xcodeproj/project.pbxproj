@@ -75,6 +75,7 @@
 		C4F00DC8226762CD0094315E /* PictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F00DC7226762CD0094315E /* PictureCell.swift */; };
 		C4F00DCA2267636F0094315E /* PicturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F00DC92267636F0094315E /* PicturesViewController.swift */; };
 		C4F00DCC226764060094315E /* PicturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4F00DCB226764060094315E /* PicturesViewController.xib */; };
+		C4F00DCF226775120094315E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4F00DCE226775120094315E /* Main.storyboard */; };
 		C4F84C5B222E488D00885D73 /* ThemesViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */; };
 		C4FB7110222F9A040068E1DF /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB710F222F9A040068E1DF /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
@@ -152,6 +153,7 @@
 		C4F00DC7226762CD0094315E /* PictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCell.swift; sourceTree = "<group>"; };
 		C4F00DC92267636F0094315E /* PicturesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesViewController.swift; sourceTree = "<group>"; };
 		C4F00DCB226764060094315E /* PicturesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PicturesViewController.xib; sourceTree = "<group>"; };
+		C4F00DCE226775120094315E /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C4F84C5A222E488D00885D73 /* ThemesViewControllerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewControllerSwift.swift; sourceTree = "<group>"; };
 		C4FB710F222F9A040068E1DF /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		FDAB58C0A0CF461864DB77F9 /* Pods-Blah Blah Chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blah Blah Chat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Blah Blah Chat/Pods-Blah Blah Chat.debug.xcconfig"; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				C403B8BF2228621A000A9DF6 /* Extensions */,
 				C403B8BD222861F6000A9DF6 /* Utilities */,
 				C4F00DA12267256D0094315E /* RootAssembly.swift */,
+				C4F00DCE226775120094315E /* Main.storyboard */,
 			);
 			path = "Blah Blah Chat";
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				C4F00DA622672D6D0094315E /* ProfileViewController.xib in Resources */,
 				C4F00D982266538E0094315E /* ConversationsListViewController.xib in Resources */,
 				C403B89B22206E70000A9DF6 /* ConversationTableViewCell.xib in Resources */,
+				C4F00DCF226775120094315E /* Main.storyboard in Resources */,
 				C407817B221075B30024290A /* LaunchScreen.storyboard in Resources */,
 				C403B8CB22286657000A9DF6 /* OutcomingMessageTableViewCell.xib in Resources */,
 				C4078178221075B30024290A /* Assets.xcassets in Resources */,
