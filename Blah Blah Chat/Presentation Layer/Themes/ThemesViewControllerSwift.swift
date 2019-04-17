@@ -9,37 +9,58 @@
 import UIKit
 
 class ThemesViewControllerSwift: UIViewController {
-
-    var model = ThemesModel(theme1: #colorLiteral(red: 0.9372549057, green: 0.9372549057, blue: 0.9568627477, alpha: 1), theme2: #colorLiteral(red: 0.2941176471, green: 0.2941176471, blue: 0.2941176471, alpha: 1), theme3: #colorLiteral(red: 0.8588235294, green: 0.9176470588, blue: 1, alpha: 1))
-    var closure: ((_ selectedColor: UIColor) -> Void)?
-
+    
+    private let model: ThemesModelProtocol
+    
+    init(model: ThemesModelProtocol) {
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNavBar()
+        
+        DispatchQueue.global(qos: .userInteractive).async {
+            if let theme = UserDefaults.standard.colorForKey(key: "Theme") {
+                DispatchQueue.main.async {
+                    self.view.backgroundColor = theme
+                }
+            }
+        }
+    }
+    
+    private func setupNavBar() {
+        navigationItem.title = "Themes"
+        let leftItem = UIBarButtonItem(title: "Back",
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(closeView))
+        navigationItem.setLeftBarButton(leftItem, animated: true)
     }
 
     @IBAction func selectThemeOne(_ sender: Any) {
         let selectedColor = model.theme1
-        if let closure = closure {
-            closure(selectedColor)
-        }
+        model.closure(self, selectedColor)
         self.view.backgroundColor = selectedColor
         //self.reloadView()
     }
 
     @IBAction func selectThemeTwo(_ sender: Any) {
         let selectedColor = model.theme2
-        if let closure = closure {
-            closure(selectedColor)
-        }
+        model.closure(self, selectedColor)
         self.view.backgroundColor = selectedColor
        // self.reloadView()
     }
 
     @IBAction func selectThemeThree(_ sender: Any) {
         let selectedColor = model.theme3
-        if let closure = closure {
-            closure(selectedColor)
-        }
+        model.closure(self, selectedColor)
         self.view.backgroundColor = selectedColor
         //self.reloadView()
     }
@@ -53,7 +74,7 @@ class ThemesViewControllerSwift: UIViewController {
 //        }
 //    }
 
-    @IBAction func closeView(_ sender: UIBarButtonItem) {
+    @objc func closeView() {
         self.dismiss(animated: true, completion: nil)
     }
 }

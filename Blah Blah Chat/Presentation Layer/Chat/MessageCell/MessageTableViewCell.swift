@@ -8,9 +8,22 @@
 
 import UIKit
 
-class MessageTableViewCell: UITableViewCell {
+protocol MessageCellConfiguration {
+    var messageText: String? { get set }
+    var isIncoming: Bool { get set }
+}
+
+class MessageTableViewCell: UITableViewCell, MessageCellConfiguration {
 
     @IBOutlet var messageLabel: UILabel!
+    
+    var messageText: String? {
+        didSet {
+            messageLabel.text = messageText
+        }
+    }
+    
+    var isIncoming = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,18 +36,8 @@ class MessageTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureCell(message: String) {
-        self.messageText = message
-    }
-}
-
-extension MessageTableViewCell: MessageCellConfiguration {
-    var messageText: String? {
-        get {
-            return messageLabel.text
-        }
-        set {
-            self.messageLabel.text = newValue
-        }
+    func configureCell(message: Message) {
+        self.messageText = message.messageText
+        self.isIncoming = message.isIncoming
     }
 }

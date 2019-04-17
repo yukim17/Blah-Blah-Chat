@@ -9,19 +9,17 @@
 import Foundation
 import CoreData
 
-typealias SaveCompletion = () -> Void
-
 class CoreDataStack {
 
     static let shared = CoreDataStack()
 
     var storeURL: URL {
         let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return documentsUrl.appendingPathComponent("MyStore.sqlite")
+        return documentsUrl.appendingPathComponent("BlahBlahChat.sqlite")
     }
 
-    let dataModelName = "ProfileModel"
-    let dataModelExtention = "momd"
+    private let dataModelName = "ProfileModel"
+    private let dataModelExtention = "momd"
 
     lazy var managedObjectModel: NSManagedObjectModel = {
         let modelURL = Bundle.main.url(forResource: self.dataModelName, withExtension: self.dataModelExtention)!
@@ -33,7 +31,7 @@ class CoreDataStack {
         do {
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.storeURL, options: nil)
         } catch {
-            print(error)
+            print("Error adding persistent store to coordinator: \(error)")
         }
         return coordinator
     }()
@@ -59,23 +57,24 @@ class CoreDataStack {
         return context
     }()
 
-    func performSave(with context: NSManagedObjectContext, completion: SaveCompletion? = nil) {
-        context.perform {
-            guard context.hasChanges else {
-                completion?()
-                return
+    func performSave(with context: NSManagedObjectContext, completion: @escaping (Error?) -> ()) {
+        if context.hasChanges {
+            context.perform { [weak self] in
+                do {
+                    try context.save()
+                } catch {
+                    print("Context save error: \(error)")
+                    completion(error)
+                }
+                
+                if let parent = context.parent {
+                    self?.performSave(with: parent, completion: completion)
+                } else {
+                    completion(nil)
+                }
             }
-
-            do {
-                try context.save()
-            } catch {
-                print("Context save error: \(error)")
-            }
-            if let parentContext = context.parent {
-                self.performSave(with: parentContext, completion: completion)
-            } else {
-                completion?()
-            }
+        } else {
+            completion(nil)
         }
     }
 }

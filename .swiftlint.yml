@@ -5,4 +5,9 @@ identifier_name:
   excluded: # excluded via string array
     - i
 
+disabled_rules:
+  - force_cast
+  - force_try
+  - trailing_whitespace
+
 use_nested_configs: true

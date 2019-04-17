@@ -14,7 +14,11 @@ protocol ThemesServiceProtocol: class {
 }
 
 class ThemesService: ThemesServiceProtocol {
-    private let themesManager = ThemesManager()
+    private let themesManager: ThemesManagerProtocol
+    
+    init(themesManager: ThemesManagerProtocol) {
+        self.themesManager = themesManager
+    }
 
     func save(_ theme: UIColor) {
         themesManager.apply(theme, save: true)

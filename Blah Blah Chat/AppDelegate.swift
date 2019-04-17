@@ -13,16 +13,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let logger = Logger.shared
+    private let rootAssembly = RootAssembly()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let controller = rootAssembly.presentationAssembly.conversationsListViewController()
+        let navigationController = UINavigationController()
+        navigationController.viewControllers = [controller]
+        
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+        
         UINavigationBar.appearance().tintColor = UIColor.black
-        if let color = UserDefaults.standard.colorForKey(key: "ThemeColor") {
-            UINavigationBar.appearance().barTintColor = color
-            UINavigationBar.appearance().backgroundColor = color
-        }
-
+        UINavigationBar.appearance().isTranslucent = false
+        
         return true
     }
 

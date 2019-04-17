@@ -14,52 +14,59 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profilePhotoImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var pickPhotoButton: UIButton!
-    @IBOutlet var gcdSaveButton: UIButton!
+    @IBOutlet var saveButton: UIButton!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var desciptionTextField: UITextField!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
-    var editingMode: Bool = false {
-        didSet {
-            self.setEditingState(editing: editingMode)
+    private var dataWasChanged: Bool {
+        get{
+            return model.name != nameTextField.text || model.description != desciptionTextField.text || model.picture != profilePhotoImageView.image
         }
     }
-
-    private var profile: ProfileData?
-    var dataManager: DataManager? = StorageManager()
-
-    private var saveChanges: ( () -> Void )?
-
-    private var dataWasChanged: Bool {
-        return self.profile?.nameChanged ?? false || self.profile?.descriptionChanged ?? false || self.profile?.photoChanged ?? false
+    
+    private var editingMode: Bool = false
+    private var model: AppUserModelProtocol
+    
+    init(model: AppUserModelProtocol) {
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.editButton.layer.borderWidth = 1.0
-        self.editButton.layer.borderColor = UIColor.black.cgColor
-        self.editButton.layer.cornerRadius = 10
-        self.gcdSaveButton.layer.borderWidth = 1.0
-        self.gcdSaveButton.layer.borderColor = UIColor.black.cgColor
-        self.gcdSaveButton.layer.cornerRadius = 10
-        self.pickPhotoButton.layer.masksToBounds = true
-        self.profilePhotoImageView.layer.masksToBounds = true
-        self.activityIndicator.center = self.view.center
+        activityIndicator.startAnimating()
+        setupSubviews()
 
-        imagePicker.delegate = self
-
+        self.imagePicker.delegate = self
         self.desciptionTextField.delegate = self
         self.nameTextField.delegate = self
+        self.nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         self.nameTextField.autocorrectionType = UITextAutocorrectionType.no
         self.desciptionTextField.autocorrectionType = UITextAutocorrectionType.no
 
-        self.editingMode = false
-        self.loadFromFile()
+        model.load { [unowned self] profile in
+            guard let profile = profile else {
+                self.activityIndicator.stopAnimating()
+                return
+            }
+            self.model.set(on: profile)
+            if let name = profile.name {
+                self.nameTextField.text = name
+            }
+            if let descr = profile.description {
+                self.desciptionTextField.text = descr
+            }
+            if let picture = profile.picture {
+                self.profilePhotoImageView.image = picture
+            }
+            self.activityIndicator.stopAnimating()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -82,13 +89,30 @@ class ProfileViewController: UIViewController {
         self.pickPhotoButton.layer.cornerRadius = cornerRadius
         self.profilePhotoImageView.layer.cornerRadius = cornerRadius
     }
+    
+    private func setupSubviews() {
+        self.navigationItem.title = "Profile"
+        self.editButton.layer.borderWidth = 1.0
+        self.editButton.layer.borderColor = UIColor.black.cgColor
+        self.editButton.layer.cornerRadius = 10
+        self.saveButton.layer.borderWidth = 1.0
+        self.saveButton.layer.borderColor = UIColor.black.cgColor
+        self.saveButton.layer.cornerRadius = 10
+        self.saveButton.isHidden = true
+        self.pickPhotoButton.layer.masksToBounds = true
+        self.profilePhotoImageView.layer.masksToBounds = true
+        self.activityIndicator.center = self.view.center
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done , target: self, action: #selector(backToChats))
+        setEnabledState(enabled: dataWasChanged)
+    }
 
     @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
         self.editingMode = true
         self.setEnabledState(enabled: false)
+        self.setEditingState(editing: true)
     }
 
-    @IBAction func backToChats(_ sender: UIBarButtonItem) {
+    @objc func backToChats() {
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -112,65 +136,53 @@ class ProfileViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    private func loadFromFile() {
-        self.dataManager?.loadProfile(completion: { (profile) in
-            if let unwrappedProfile = profile {
-                self.profile = unwrappedProfile
+    @IBAction func saveButtonPressed(_ sender: Any) {
+        activityIndicator.startAnimating()
+        view.endEditing(true)
+        
+        if nameTextField.text != model.name {
+            model.name = nameTextField.text
+        }
+        
+        if desciptionTextField.text != model.description {
+            model.description = desciptionTextField.text
+        }
+        
+        if profilePhotoImageView.image != model.picture {
+            model.picture = profilePhotoImageView.image
+        }
+        
+        model.save() { [weak self] error in
+            if !error {
+                self?.showSuccessAlert()
+            } else {
+                self?.showErrorAlert()
             }
-
-            self.profilePhotoImageView.image = profile?.photo ?? UIImage.init(named: "placeholder-user")
-            self.nameTextField.text = profile?.name ?? "Введите имя"
-            self.desciptionTextField.text = profile?.description ?? "Расскажите о себе"
-
-            self.profile = ProfileData(name: self.nameTextField.text, descr: self.desciptionTextField.text, image: self.profilePhotoImageView.image)
+            
+            self?.activityIndicator.stopAnimating()
+        }
+        self.editingMode = false
+        self.setEditingState(editing: false)
+        self.setEnabledState(enabled: false)
+    }
+    
+    private func showSuccessAlert() {
+        let alertController = UIAlertController(title: "Changes saved!", message: nil, preferredStyle: .alert)
+        alertController.view.tintColor = UIColor.black
+        alertController.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    private func showErrorAlert() {
+        let alertController = UIAlertController(title: "Error", message: "could not save data", preferredStyle: .alert)
+        alertController.view.tintColor = UIColor.black
+        alertController.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Retry", style: .default) { action in
+            self.saveButtonPressed(self);
         })
-
+        self.present(alertController, animated: true, completion: nil)
     }
-
-    @IBAction func saveButtonsPressed(_ sender: UIButton) {
-        self.nameTextField.resignFirstResponder()
-        self.desciptionTextField.resignFirstResponder()
-
-        self.saveChanges = {
-
-            self.activityIndicator.startAnimating()
-            self.setEnabledState(enabled: false)
-
-            self.profile?.name = self.nameTextField.text
-            self.profile?.description = self.desciptionTextField.text
-            self.profile?.photo = self.profilePhotoImageView.image
-
-            self.dataManager?.saveProfile(data: self.profile!, completion: { (saveSucceeded: Bool) in
-
-                self.activityIndicator.stopAnimating()
-                if saveSucceeded {
-                    self.showAlert(title: "Данные сохранены", message: "", retry: nil)
-                    self.loadFromFile()
-                } else {
-                    self.showAlert(title: "Ошибка", message: "Не удалось сохранить данные", retry: nil)
-                }
-                self.setEnabledState(enabled: true)
-                self.editingMode = !saveSucceeded
-            })
-        }
-
-        self.saveChanges?()
-    }
-
-    @IBAction func usernameChangedByEditing(_ sender: UITextField) {
-        if let newName = sender.text {
-            self.profile?.nameChanged = (newName != (self.profile?.name ?? ""))
-            self.setEnabledState(enabled: self.dataWasChanged)
-        }
-    }
-
-    @IBAction func descrChangedByEditing(_ sender: UITextField) {
-        if let newDescr = sender.text {
-            self.profile?.descriptionChanged = (newDescr != (self.profile?.description ?? ""))
-            self.setEnabledState(enabled: self.dataWasChanged)
-        }
-    }
-
 }
 
 // MARK: - Change ViewController State
@@ -183,14 +195,14 @@ extension ProfileViewController {
         }
 
         self.editButton.isHidden = editing
-        self.gcdSaveButton.isHidden = !editing
+        self.saveButton.isHidden = !editing
 
         self.nameTextField.isEnabled = editing
         self.desciptionTextField.isEnabled = editing
     }
 
     private func setEnabledState(enabled: Bool) {
-        self.gcdSaveButton.isEnabled = enabled
+        self.saveButton.isEnabled = enabled
     }
 
 }
@@ -258,21 +270,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.profilePhotoImageView.image = image
-            self.profilePhotoImageView.contentMode = .scaleAspectFit
-
-            if let savedImage = self.profile?.photo {
-                let newImage = image.pngData()!
-                let oldImage = savedImage.pngData()!
-                self.profile?.photoChanged = !newImage.elementsEqual(oldImage)
-            } else {
-                self.profile?.photoChanged = true
-            }
-
-            self.setEnabledState(enabled: self.dataWasChanged)
+            setEnabledState(enabled: dataWasChanged)
         } else {
+            // error occured
             print("Error picking image")
         }
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -285,8 +288,14 @@ extension ProfileViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        return true
+        return true;
     }
+    
+    // user edited text field
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        setEnabledState(enabled: dataWasChanged)
+    }
+    
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ThemesViewControllerSwift" customModule="Blah_Blah_Chat" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="SSl-E9-FyE"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Здесь вы можете поменять тему приложения" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Stp-Ed-NuP">
+                    <rect key="frame" x="16" y="36" width="343" height="43"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6J-Ya-zDh">
+                    <rect key="frame" x="16" y="127" width="343" height="44"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="6Ih-ap-aKi"/>
+                    </constraints>
+                    <state key="normal" title="Светлая"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="selectThemeOne:" destination="-1" eventType="touchUpInside" id="SQL-sf-fsM"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79P-q0-W4I">
+                    <rect key="frame" x="16" y="203" width="343" height="44"/>
+                    <color key="backgroundColor" red="0.29411764709999999" green="0.29411764709999999" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="UJo-Ch-FhX"/>
+                    </constraints>
+                    <state key="normal" title="Темная">
+                        <color key="titleColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="selectThemeTwo:" destination="-1" eventType="touchUpInside" id="NUT-ns-TGv"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgo-G2-m62">
+                    <rect key="frame" x="16" y="279" width="343" height="44"/>
+                    <color key="backgroundColor" red="0.85882352939999995" green="0.91764705879999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="cYB-tx-bfu"/>
+                    </constraints>
+                    <state key="normal" title="Голубая"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="selectThemeThree:" destination="-1" eventType="touchUpInside" id="NmG-WC-Tzk"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Vgo-G2-m62" firstAttribute="top" secondItem="79P-q0-W4I" secondAttribute="bottom" constant="32" id="9l6-Ac-0Qg"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Stp-Ed-NuP" secondAttribute="trailing" constant="16" id="CzZ-4T-Xi7"/>
+                <constraint firstItem="79P-q0-W4I" firstAttribute="top" secondItem="m6J-Ya-zDh" secondAttribute="bottom" constant="32" id="Dtk-ci-TJU"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="79P-q0-W4I" secondAttribute="trailing" constant="16" id="LVo-ED-FWg"/>
+                <constraint firstItem="m6J-Ya-zDh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="MZQ-F3-JJc"/>
+                <constraint firstItem="Stp-Ed-NuP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="Vgc-CB-Fw2"/>
+                <constraint firstItem="m6J-Ya-zDh" firstAttribute="top" secondItem="Stp-Ed-NuP" secondAttribute="bottom" constant="48" id="ddm-GD-c6V"/>
+                <constraint firstItem="Vgo-G2-m62" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="nvx-MD-3tY"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Vgo-G2-m62" secondAttribute="trailing" constant="16" id="oJf-UR-aSa"/>
+                <constraint firstItem="Stp-Ed-NuP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="pgK-CE-WOW"/>
+                <constraint firstItem="79P-q0-W4I" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="uin-Ik-PnZ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="m6J-Ya-zDh" secondAttribute="trailing" constant="16" id="zMn-cw-ds9"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+        </view>
+    </objects>
+</document>

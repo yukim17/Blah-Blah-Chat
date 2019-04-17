@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M6v-Yt-nEX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -144,10 +144,6 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Qbe-d4-S47" id="aXg-1X-ngy"/>
-                                    <outlet property="delegate" destination="Qbe-d4-S47" id="XjU-Vj-HlL"/>
-                                </connections>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ftR-te-9gK">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -165,9 +161,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jCg-ja-twB">
                                         <rect key="frame" x="276" y="8" width="36" height="44"/>
                                         <state key="normal" title="Send"/>
-                                        <connections>
-                                            <action selector="sendTapped:" destination="Qbe-d4-S47" eventType="touchUpInside" id="L7o-5E-fIg"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -195,11 +188,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CPU-2b-kER"/>
                     </view>
-                    <connections>
-                        <outlet property="messageTextField" destination="JPT-4A-OHs" id="1MC-uF-bEe"/>
-                        <outlet property="messagesTableView" destination="vv7-xC-lFe" id="3aU-pm-yKB"/>
-                        <outlet property="sendButton" destination="jCg-ja-twB" id="aNG-ue-R3p"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Si-Md-AF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -241,19 +229,12 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="JKd-s4-Dh6"/>
                         <barButtonItem key="leftBarButtonItem" title="Item" image="icons8-settings-filled-50" id="HGT-fX-Vns">
                             <inset key="imageInsets" minX="0.0" minY="3" maxX="0.0" maxY="-3"/>
-                            <connections>
-                                <action selector="showThemeSettings:" destination="G7J-Od-DtL" id="KIq-oS-Nnc"/>
-                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="icons8-outline-of-a-face-50" id="BD7-lu-Kb1">
                             <inset key="imageInsets" minX="0.0" minY="3" maxX="0.0" maxY="-3"/>
-                            <connections>
-                                <action selector="showProfile:" destination="G7J-Od-DtL" id="82O-oH-MQX"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="convListTableView" destination="SUA-aR-jeb" id="3c9-iU-Q9X"/>
                         <segue destination="Qbe-d4-S47" kind="show" identifier="showChat" id="L8T-rK-J9U"/>
                         <segue destination="Hh0-fJ-V7n" kind="presentation" identifier="showThemesSwift" id="T2j-P6-kah"/>
                         <segue destination="izn-cT-aWz" kind="presentation" identifier="viewProfile" id="etD-s9-od4"/>
@@ -303,19 +284,12 @@
                                 </constraints>
                                 <inset key="contentEdgeInsets" minX="20" minY="20" maxX="20" maxY="20"/>
                                 <state key="normal" image="icons8-compact-camera-filled-100-2"/>
-                                <connections>
-                                    <action selector="pickPhoto:" destination="izn-cT-aWz" eventType="touchUpInside" id="Uid-kk-nuz"/>
-                                </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9W-HM-MWT">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
                                     <navigationItem title="Profile" id="qOu-tg-TYB">
-                                        <barButtonItem key="leftBarButtonItem" title="Close" id="d1p-8L-5RY">
-                                            <connections>
-                                                <action selector="backToChats:" destination="izn-cT-aWz" id="THA-lr-11i"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <barButtonItem key="leftBarButtonItem" title="Close" id="d1p-8L-5RY"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -327,18 +301,12 @@
                                 <state key="normal" title="Сохранить">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="saveButtonsPressed:" destination="izn-cT-aWz" eventType="touchUpInside" id="db3-W4-bLf"/>
-                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Имя пользователя" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M10-AB-UPW">
                                 <rect key="frame" x="16" y="371" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="usernameChangedByEditing:" destination="izn-cT-aWz" eventType="editingDidEnd" id="KFb-JL-uhj"/>
-                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUs-aP-bVV">
                                 <rect key="frame" x="16" y="508" width="288" height="44"/>
@@ -348,18 +316,12 @@
                                 <state key="normal" title="Редактировать">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="editButtonPressed:" destination="izn-cT-aWz" eventType="touchUpInside" id="gat-h3-b7M"/>
-                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V51-1X-Wxc">
                                 <rect key="frame" x="16" y="417" width="288" height="75"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="descrChangedByEditing:" destination="izn-cT-aWz" eventType="editingDidEnd" id="4HD-SB-qqO"/>
-                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -389,15 +351,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vzj-3F-DMU"/>
                     </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="Xvd-cv-iXW" id="Yxw-6R-hUa"/>
-                        <outlet property="desciptionTextField" destination="V51-1X-Wxc" id="N3G-9f-0mz"/>
-                        <outlet property="editButton" destination="hUs-aP-bVV" id="4sb-bj-deJ"/>
-                        <outlet property="gcdSaveButton" destination="vM5-xh-88q" id="bq8-4v-VHF"/>
-                        <outlet property="nameTextField" destination="M10-AB-UPW" id="jsd-rT-VR4"/>
-                        <outlet property="pickPhotoButton" destination="Hor-FH-FDk" id="0pN-X4-mc7"/>
-                        <outlet property="profilePhotoImageView" destination="WEk-pQ-dys" id="B5K-RR-iln"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NDB-po-KAa" sceneMemberID="firstResponder"/>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="Xvd-cv-iXW">

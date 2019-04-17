@@ -10,69 +10,112 @@ import UIKit
 
 class ConversationsListViewController: UIViewController {
 
-    var onlineConversations = [Conversation]()
-    var offlineConversations = [Conversation]()
-
-    var communicationManager = CommunicationManager()
-    let themesService = ThemesService()
-
     @IBOutlet var convListTableView: UITableView!
+    
+    private var model: ConversationModelProtocol
+    private let presentationAssembly: PresentationAssemblyProtocol
+    
+    init(model: ConversationModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
+        self.model = model
+        self.presentationAssembly = presentationAssembly
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.themesService.load()
-        self.communicationManager.usersDelegate = self
+        model.reloadThemeSettings()
+        setupTableView()
+        
+        model.dataSource = ConversationDataSource(delegate: convListTableView, fetchRequest: model.frService.allConversations()!, context: model.frService.saveContext)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        setupNavBar()
+    }
+    
+    private func setupTableView() {
         self.convListTableView.delegate = self
         self.convListTableView.dataSource = self
-
+        
         let nib = UINib(nibName: "ConversationTableViewCell", bundle: nil)
         self.convListTableView.register(nib, forCellReuseIdentifier: "chatCell")
-
+        
         self.convListTableView.rowHeight = UITableView.automaticDimension
         self.convListTableView.estimatedRowHeight = 67
     }
-
-    @IBAction func showProfile(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "viewProfile", sender: self)
+    
+    private func setupNavBar() {
+        navigationItem.title = "Blah Blah Chat"
+        
+        let profileButton = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-outline-of-a-face-50"), style: .plain , target: self, action: #selector(self.showProfile) )
+        profileButton.tintColor = UIColor.gray
+        navigationItem.rightBarButtonItem = profileButton
+        
+        let themesButton = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-settings-filled-50"), style: .plain, target: self, action: #selector(self.showThemeSettings) )
+        
+        navigationItem.leftBarButtonItem = themesButton
     }
 
-    @IBAction func showThemeSettings(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "showThemesSwift", sender: self)
+    @objc func showProfile() {
+        let controller = presentationAssembly.profileViewController()
+        let navigationController = UINavigationController()
+        navigationController.viewControllers = [controller]
+
+        present(navigationController, animated: true)
+    }
+
+    @objc func showThemeSettings() {
+        let controller = presentationAssembly.themesViewController() { [weak self] (controller: ThemesViewControllerSwift, selectedTheme: UIColor?) in
+            guard let theme = selectedTheme else { return }
+            controller.view.backgroundColor = theme
+            self?.model.saveSettings(for: theme)
+        }
+
+        let navigationController = UINavigationController()
+        navigationController.viewControllers = [controller]
+        present(navigationController, animated: true)
     }
 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showChat" {
-            guard let viewController = segue.destination as? ChatViewController else { return }
-            let indexPath = self.convListTableView.indexPathForSelectedRow!
-            let selectedItem = indexPath.section == 0 ?
-                self.onlineConversations[indexPath.row] :
-                self.offlineConversations[indexPath.row]
-            viewController.userName = selectedItem.name ?? ""
-
-            switch indexPath.section {
-            case 0:
-                viewController.isOnline = true
-                onlineConversations[indexPath.row].hasUnreadMessages = false
-            case 1:
-                viewController.isOnline = false
-                offlineConversations[indexPath.row].hasUnreadMessages = false
-            default:
-                break
-            }
-
-            viewController.communicationManager = communicationManager
-            communicationManager.chatDelegate = viewController
-
-            self.convListTableView.deselectRow(at: indexPath, animated: true)
-        } else if segue.identifier == "showThemesSwift" {
-            guard let viewController = segue.destination as? ThemesViewControllerSwift else { return }
-            viewController.closure = { [weak self] in self?.themesService.save }()
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showChat" {
+//            guard let viewController = segue.destination as? ChatViewController else { return }
+//            let indexPath = self.convListTableView.indexPathForSelectedRow!
+//            let selectedItem = indexPath.section == 0 ?
+//                self.onlineConversations[indexPath.row] :
+//                self.offlineConversations[indexPath.row]
+//            viewController.userName = selectedItem.name ?? ""
+//
+//            switch indexPath.section {
+//            case 0:
+//                viewController.isOnline = true
+//                onlineConversations[indexPath.row].hasUnreadMessages = false
+//            case 1:
+//                viewController.isOnline = false
+//                offlineConversations[indexPath.row].hasUnreadMessages = false
+//            default:
+//                break
+//            }
+//
+//            viewController.communicationManager = communicationManager
+//            communicationManager.chatDelegate = viewController
+//
+//            self.convListTableView.deselectRow(at: indexPath, animated: true)
+//        } else if segue.identifier == "showThemesSwift" {
+//            guard let viewController = segue.destination as? ThemesViewControllerSwift else { return }
+//            viewController.closure = { [weak self] in self?.themesService.save }()
+//        }
+//    }
 
 }
 
@@ -81,7 +124,12 @@ class ConversationsListViewController: UIViewController {
 extension ConversationsListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "showChat", sender: self)
+        guard let conversation = model.dataSource?.fetchedResultsController.object(at: indexPath) else { return }
+        let controller = presentationAssembly.chatViewController(model: ChatModel(communicationService: model.communicationService, frService: model.frService, conversation: conversation))
+
+        controller.navigationItem.title = conversation.user?.name
+        navigationController?.pushViewController(controller, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -90,7 +138,10 @@ extension ConversationsListViewController: UITableViewDelegate {
 extension ConversationsListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        guard let sectionsCount = model.dataSource?.fetchedResultsController.sections?.count else {
+            return 0
+        }
+        return sectionsCount
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -105,60 +156,30 @@ extension ConversationsListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return self.onlineConversations.count
+        guard let sections = model.dataSource?.fetchedResultsController.sections else {
+            return 0
         }
-        return self.offlineConversations.count
+        return sections[section].numberOfObjects
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as? ConversationTableViewCell else { return UITableViewCell() }
-
-        var conversation: Conversation
-
-        if indexPath.section == 0 {
-            conversation = onlineConversations[indexPath.row]
+        
+        let identifier = "chatCell"
+        var convCell: ConversationTableViewCell
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ConversationTableViewCell {
+            convCell = cell
         } else {
-            conversation = offlineConversations[indexPath.row]
+            convCell = ConversationTableViewCell(style: .default, reuseIdentifier: identifier)
         }
-
-        cell.configureCell(conversation: conversation)
-
-        return cell
-    }
-}
-
-extension ConversationsListViewController: CommunicationManagerUsersDelegate {
-
-    func dateAndName(_ left: Conversation, _ right: Conversation) -> Bool {
-        guard let leftDate = left.date,
-            let rightDate = right.date else {
-                return left.name! < right.name!
-        }
-        return leftDate < rightDate
-    }
-
-    func updateConversations(_ conversations: [Conversation]) {
-        for conversation in conversations {
-            guard let lastMessage = MessagesStorage.getMessages(from: conversation.name!)?.last else {
-                conversation.hasUnreadMessages = false
-                continue
+        
+        if let conversation = model.dataSource?.fetchedResultsController.object(at: indexPath) {
+            if let user = conversation.user {
+                convCell.name = user.name
             }
-            conversation.message = lastMessage.messageText
-            conversation.date = lastMessage.date
+            convCell.configureCell(conversation: conversation)
         }
+        
+        return convCell
     }
-
-    func updateConversationList() {
-        updateConversations(self.onlineConversations)
-        updateConversations(self.offlineConversations)
-
-        self.onlineConversations = self.onlineConversations.sorted(by: dateAndName)
-        self.offlineConversations = self.offlineConversations.sorted(by: dateAndName)
-
-        DispatchQueue.main.async {
-            self.convListTableView.reloadData()
-        }
-    }
-
 }

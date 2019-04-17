@@ -8,59 +8,86 @@
 
 import UIKit
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDelegate {
+extension UITableView: DataSourceDelegate {
+    // UITableView used as a DataSourceDelegate protocol object
+}
 
-    @IBOutlet weak var messagesTableView: UITableView!
+class ChatViewController: UIViewController, UITableViewDelegate {
+
+    @IBOutlet weak var messagesTableView: UITableView! {
+        didSet {
+            // workaround for displaying messages bottom -> top
+            messagesTableView.transform = CGAffineTransform(scaleX: 1, y: -1)
+        }
+    }
     @IBOutlet var messageTextField: UITextField!
     @IBOutlet var sendButton: UIButton!
-
-    var messages = [Message]()
-    var communicationManager: CommunicationManager!
-    var isOnline: Bool!
-    var userName: String = "" {
-        didSet {
-            self.title = userName
-        }
+    
+    private var model: ChatModel
+    var sendButtonLocked = false
+    
+    init(model: ChatModel) {
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        self.messagesTableView.addGestureRecognizer(tapGesture)
-
-        if let messages = MessagesStorage.getMessages(from: userName) {
-            self.messages = messages
-        }
-        if !isOnline {
-            userBecomeOffline()
-        }
-
         self.messageTextField.delegate = self
+        messageTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        self.setupTableView()
+        self.setupKeyboard()
+        self.model.dataSource = MessagesDataSource(delegate: messagesTableView, fetchRequest: model.frService.messagesInConversation(with: model.conversation.conversationId!)!, context: model.frService.saveContext)
+        
+        if let count = model.conversation.messages?.count, count > 0 {
+            messagesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        } else {
+            setupNoMessagesView()
+        }
+    }
+    
+    private func setupTableView() {
         self.messagesTableView.delegate = self
         self.messagesTableView.dataSource = self
-
+        
         let nib = UINib(nibName: "IncomingMessageTableViewCell", bundle: nil)
         self.messagesTableView.register(nib, forCellReuseIdentifier: "incomingMessage")
-
+        
         let nib1 = UINib(nibName: "OutcomingMessageTableViewCell", bundle: nil)
         self.messagesTableView.register(nib1, forCellReuseIdentifier: "outcomingMessage")
-
+        
         self.messagesTableView.rowHeight = UITableView.automaticDimension
         self.messagesTableView.estimatedRowHeight = 50
     }
+    
+    private func setupKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        self.messagesTableView.addGestureRecognizer(tapGesture)
+    }
 
     func setupNoMessagesView() {
-        if messages.isEmpty {
-            let noMessagesLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-            noMessagesLabel.text = "Not messages yet"
-            noMessagesLabel.textColor = UIColor.darkGray
-            noMessagesLabel.font = UIFont.systemFont(ofSize: 14)
-            noMessagesLabel.textAlignment = .center
-            self.messagesTableView.tableHeaderView = noMessagesLabel
+        let noMessagesLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        noMessagesLabel.text = "No messages yet"
+        noMessagesLabel.textColor = UIColor.darkGray
+        noMessagesLabel.font = UIFont.systemFont(ofSize: 14)
+        noMessagesLabel.textAlignment = .center
+        self.messagesTableView.tableHeaderView = noMessagesLabel
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if  model.conversation.isOnline {
+            self.enableControls()
+        } else {
+            self.disableControls()
         }
     }
 
@@ -68,52 +95,103 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITextFieldDele
         super.viewWillLayoutSubviews()
         self.messagesTableView.scrollToBottom(animated: false)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // removing observers
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        model.makeRead()
+        view.gestureRecognizers?.removeAll()
+    }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    // MARK: - sendButtonLock
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        if textField == messageTextField {
+            if let text = messageTextField.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+                sendButtonLocked = false
+            } else {
+                sendButtonLocked = true
+            }
+        }
     }
 
     @IBAction func sendTapped(_ sender: Any) {
-        guard let text = messageTextField.text,
-            text != "" else { return }
-
-        messageTextField.text = ""
-        communicationManager.communicator.sendMessage(string: text, to: userName) { (_, error) in
-            self.showAlert(title: "Error", message: error?.localizedDescription, retry: nil)
+        if !sendButtonLocked {
+            guard let text = messageTextField.text,
+                let receiver = model.conversation.user?.userId, !text.isEmpty else { return }
+            model.communicationService.communicator.sendMessage(text: text, to: receiver) { [weak self] success, error in
+                if success {
+                    self?.messageTextField.text = nil
+                    self?.sendButtonLocked = true
+                } else {
+                    let alert = UIAlertController(title: "Error occured", message: error?.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "done", style: .cancel))
+                    self?.present(alert, animated: true)
+                }
+            }
         }
-
-        let outcomingMessage = Message(messageText: text, date: Date.init(timeIntervalSinceNow: 0), type: .outcoming)
-        self.messages.append(outcomingMessage)
-
-        self.messagesTableView.reloadData()
-        self.messagesTableView.scrollToBottom(animated: true)
-
-        MessagesStorage.addMessage(from: userName, message: outcomingMessage)
     }
 }
 
 extension ChatViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        guard let sections = model.dataSource?.fetchedResultsController.sections?.count else {
+            return 0
+        }
+        
+        return sections
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.messages.count
+        guard let sections = model.dataSource?.fetchedResultsController.sections else {
+            return 0
+        }
+        return sections[section].numberOfObjects
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let message = self.messages[indexPath.row]
-        var cell: MessageTableViewCell
-        if message.type == .incoming {
-            guard let incCell = tableView.dequeueReusableCell(withIdentifier: "incomingMessage", for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
-            cell = incCell
-        } else {
-            guard let outCell = tableView.dequeueReusableCell(withIdentifier: "outcomingMessage", for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
-            cell = outCell
+        var cell: MessageTableViewCell?
+        if let message = model.dataSource?.fetchedResultsController.object(at: indexPath) {
+            var identifier: String
+            if (message.isIncoming){
+                identifier = "incomingMessage"
+            } else {
+                identifier = "outcomingMessage"
+            }
+            
+            if let messCell = tableView.dequeueReusableCell(withIdentifier: identifier) as? MessageTableViewCell {
+                cell = messCell
+            } else {
+                cell = MessageTableViewCell(style: .default, reuseIdentifier: identifier)
+            }
+            
+            cell?.configureCell(message: message)
+            
+            // workaround for displaying messages bottom -> top
+            cell?.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
         }
-
-        cell.configureCell(message: message.messageText ?? "")
-
-        return cell
+        return cell ?? UITableViewCell()
     }
+}
 
+// MARK: - UITextFieldDelegate
+extension ChatViewController: UITextFieldDelegate {
+    
+    // hide the keyboard after pressing return key
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.resignFirstResponder()
+        return true;
+    }
+    
+    // limiting input length for textfield
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let newLength = text.count + string.count - range.length
+        return newLength <= 300
+    }
 }
 
 // MARK: - Show/hide Keyboard
@@ -136,32 +214,22 @@ extension ChatViewController {
     }
 }
 
-extension ChatViewController: CommunicationManagerChatDelegate {
-
-    func didRecieveMessage(message: Message) {
+// MARK: - Enable/disable controls
+extension ChatViewController {
+    
+    func enableControls() {
         DispatchQueue.main.async {
-            if self.messages.isEmpty {
-                self.messagesTableView.tableHeaderView = nil
-            }
-            self.messages.append(message)
-
-            self.messagesTableView.reloadData()
-            self.messagesTableView.scrollToBottom(animated: true)
+            self.textFieldDidChange(self.messageTextField)
+            self.messageTextField.isEnabled = true
+            self.sendButtonLocked = false
         }
     }
-
-    func userBecomeOffline() {
+    
+    func disableControls() {
         DispatchQueue.main.async {
-            self.sendButton.isEnabled = false
-            self.sendButton.alpha = 0.5
+            self.sendButtonLocked = true
+            self.messageTextField.isEnabled = false
         }
     }
-
-    func userBecomeOnline() {
-        DispatchQueue.main.async {
-            self.sendButton.isEnabled = true
-            self.sendButton.alpha = 1
-        }
-    }
-
+    
 }
