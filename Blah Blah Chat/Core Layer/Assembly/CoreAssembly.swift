@@ -13,6 +13,7 @@ protocol CoreAssemblyProtocol {
     var dataManager: DataManager { get }
     var themesManager: ThemesManagerProtocol { get }
     var coreDataStub: CoreDataStackProtocol { get }
+    var requestSender: RequestSenderProtocol { get }
 }
 
 class CoreAssembly: CoreAssemblyProtocol {
@@ -21,4 +22,5 @@ class CoreAssembly: CoreAssemblyProtocol {
     lazy var themesManager: ThemesManagerProtocol = ThemesManager()
     lazy var dataManager: DataManager = coreDataManager
     lazy var coreDataStub: CoreDataStackProtocol = coreDataManager
+    lazy var requestSender: RequestSenderProtocol = RequestSender()
 }

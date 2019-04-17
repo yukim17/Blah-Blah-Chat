@@ -55,7 +55,7 @@ class ConversationsListViewController: UIViewController {
     private func setupNavBar() {
         navigationItem.title = "Blah Blah Chat"
         
-        let profileButton = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-outline-of-a-face-50"), style: .plain , target: self, action: #selector(self.showProfile) )
+        let profileButton = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-outline-of-a-face-50"), style: .plain, target: self, action: #selector(self.showProfile) )
         profileButton.tintColor = UIColor.gray
         navigationItem.rightBarButtonItem = profileButton
         
@@ -73,7 +73,7 @@ class ConversationsListViewController: UIViewController {
     }
 
     @objc func showThemeSettings() {
-        let controller = presentationAssembly.themesViewController() { [weak self] (controller: ThemesViewControllerSwift, selectedTheme: UIColor?) in
+        let controller = presentationAssembly.themesViewController { [weak self] (controller: ThemesViewControllerSwift, selectedTheme: UIColor?) in
             guard let theme = selectedTheme else { return }
             controller.view.backgroundColor = theme
             self?.model.saveSettings(for: theme)
@@ -83,39 +83,6 @@ class ConversationsListViewController: UIViewController {
         navigationController.viewControllers = [controller]
         present(navigationController, animated: true)
     }
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "showChat" {
-//            guard let viewController = segue.destination as? ChatViewController else { return }
-//            let indexPath = self.convListTableView.indexPathForSelectedRow!
-//            let selectedItem = indexPath.section == 0 ?
-//                self.onlineConversations[indexPath.row] :
-//                self.offlineConversations[indexPath.row]
-//            viewController.userName = selectedItem.name ?? ""
-//
-//            switch indexPath.section {
-//            case 0:
-//                viewController.isOnline = true
-//                onlineConversations[indexPath.row].hasUnreadMessages = false
-//            case 1:
-//                viewController.isOnline = false
-//                offlineConversations[indexPath.row].hasUnreadMessages = false
-//            default:
-//                break
-//            }
-//
-//            viewController.communicationManager = communicationManager
-//            communicationManager.chatDelegate = viewController
-//
-//            self.convListTableView.deselectRow(at: indexPath, animated: true)
-//        } else if segue.identifier == "showThemesSwift" {
-//            guard let viewController = segue.destination as? ThemesViewControllerSwift else { return }
-//            viewController.closure = { [weak self] in self?.themesService.save }()
-//        }
-//    }
 
 }
 

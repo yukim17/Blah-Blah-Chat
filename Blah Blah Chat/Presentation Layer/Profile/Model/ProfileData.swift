@@ -16,8 +16,8 @@ protocol AppUserData {
 
 protocol AppUserModelProtocol: AppUserData {
     func set(on profile: AppUserData)
-    func save(_ completion: @escaping (Bool) -> ())
-    func load(_ completion: @escaping (AppUserData?) -> ())
+    func save(_ completion: @escaping (Bool) -> Void)
+    func load(_ completion: @escaping (AppUserData?) -> Void)
 }
 
 class Profile: AppUserData {
@@ -41,7 +41,6 @@ class ProfileModel: AppUserModelProtocol {
     var description: String?
     var picture: UIImage?
     
-    
     init(dataService: DataManager, name: String? = nil, descr: String? = nil, picture: UIImage? = nil) {
         self.dataService = dataService
         
@@ -50,20 +49,17 @@ class ProfileModel: AppUserModelProtocol {
         self.picture = picture
     }
     
-    
     func set(on profile: AppUserData) {
         self.name = profile.name
         self.description = profile.description
         self.picture = profile.picture
     }
     
-    
-    func save(_ completion: @escaping (Bool) -> ()) {
+    func save(_ completion: @escaping (Bool) -> Void) {
         dataService.saveAppUser(self, completion: completion)
     }
     
-    
-    func load(_ completion: @escaping (AppUserData?) -> ()) {
+    func load(_ completion: @escaping (AppUserData?) -> Void) {
         dataService.loadAppUser(completion: completion)
     }
     

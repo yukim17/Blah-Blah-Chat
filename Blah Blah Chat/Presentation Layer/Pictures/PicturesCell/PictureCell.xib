@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PicturesViewController" customModule="Blah_Blah_Chat" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="WFv-rS-5If" customClass="PictureCell" customModule="Blah_Blah_Chat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="244" height="244"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="244" height="244"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hfm-6W-lOW">
+                        <rect key="frame" x="0.0" y="0.0" width="244" height="244"/>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="Hfm-6W-lOW" firstAttribute="top" secondItem="WFv-rS-5If" secondAttribute="top" id="KTN-fC-AJK"/>
+                <constraint firstAttribute="trailing" secondItem="Hfm-6W-lOW" secondAttribute="trailing" id="wsa-ph-cnV"/>
+                <constraint firstItem="Hfm-6W-lOW" firstAttribute="leading" secondItem="WFv-rS-5If" secondAttribute="leading" id="xRD-yJ-zzd"/>
+                <constraint firstAttribute="bottom" secondItem="Hfm-6W-lOW" secondAttribute="bottom" id="yFa-gE-bFa"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="N36-cI-Q6W"/>
+            <connections>
+                <outlet property="picImageView" destination="Hfm-6W-lOW" id="ktE-JQ-2tq"/>
+            </connections>
+            <point key="canvasLocation" x="48" y="79"/>
+        </collectionViewCell>
+    </objects>
+</document>

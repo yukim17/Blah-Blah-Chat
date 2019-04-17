@@ -156,7 +156,7 @@ extension ChatViewController: UITableViewDataSource {
         var cell: MessageTableViewCell?
         if let message = model.dataSource?.fetchedResultsController.object(at: indexPath) {
             var identifier: String
-            if (message.isIncoming){
+            if message.isIncoming {
                 identifier = "incomingMessage"
             } else {
                 identifier = "outcomingMessage"
@@ -183,7 +183,7 @@ extension ChatViewController: UITextFieldDelegate {
     // hide the keyboard after pressing return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.resignFirstResponder()
-        return true;
+        return true
     }
     
     // limiting input length for textfield

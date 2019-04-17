@@ -13,9 +13,8 @@ protocol PresentationAssemblyProtocol {
     func profileViewController() -> ProfileViewController
     func conversationsListViewController() -> ConversationsListViewController
     func chatViewController(model: ChatModel) -> ChatViewController
+    func picturesViewController() -> PicturesViewController
 }
-
-
 
 class PresentationAssembly: PresentationAssemblyProtocol {
     
@@ -34,14 +33,12 @@ class PresentationAssembly: PresentationAssemblyProtocol {
     }
     
     func profileViewController() -> ProfileViewController {
-        return ProfileViewController(model: profileModel())
+        return ProfileViewController(model: profileModel(), presentationAssembly: self)
     }
-
-
+    
     private func profileModel() -> AppUserModelProtocol {
         return ProfileModel(dataService: CoreDataManager())
     }
-
 
     func chatViewController(model: ChatModel) -> ChatViewController {
         return ChatViewController(model: model)
@@ -57,5 +54,12 @@ class PresentationAssembly: PresentationAssemblyProtocol {
                                       themesService: serviceAssembly.themesService,
                                       frService: serviceAssembly.frService)
     }
+    
+    func picturesViewController() -> PicturesViewController {
+        return PicturesViewController(model: picturesModel())
+    }
+    
+    private func picturesModel() -> PicturesModelProtocol {
+        return PicturesModel(picturesService: serviceAssembly.picturesService)
+    }
 }
-

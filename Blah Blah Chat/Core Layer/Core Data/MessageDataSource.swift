@@ -11,7 +11,7 @@ import UIKit
 
 class MessagesDataSource: NSObject {
     
-    var delegate: DataSourceDelegate?
+    weak var delegate: DataSourceDelegate?
     var fetchedResultsController: NSFetchedResultsController<Message>
     
     init(delegate: DataSourceDelegate?, fetchRequest: NSFetchRequest<Message>, context: NSManagedObjectContext) {
@@ -77,7 +77,6 @@ extension MessagesDataSource: NSFetchedResultsControllerDelegate {
         }
     }
 }
-
 
 protocol DataSourceDelegate: class {
     func beginUpdates()

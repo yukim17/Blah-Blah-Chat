@@ -11,6 +11,7 @@ import UIKit
 class ProfileViewController: UIViewController {
 
     let imagePicker = UIImagePickerController()
+    private let presentationAssembly: PresentationAssemblyProtocol
     @IBOutlet weak var profilePhotoImageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var pickPhotoButton: UIButton!
@@ -20,16 +21,15 @@ class ProfileViewController: UIViewController {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
     private var dataWasChanged: Bool {
-        get{
-            return model.name != nameTextField.text || model.description != desciptionTextField.text || model.picture != profilePhotoImageView.image
-        }
+        return model.name != nameTextField.text || model.description != desciptionTextField.text || model.picture != profilePhotoImageView.image
     }
     
     private var editingMode: Bool = false
     private var model: AppUserModelProtocol
     
-    init(model: AppUserModelProtocol) {
+    init(model: AppUserModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
         self.model = model
+        self.presentationAssembly = presentationAssembly
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,6 +40,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
         setupSubviews()
 
         self.imagePicker.delegate = self
@@ -102,7 +103,7 @@ class ProfileViewController: UIViewController {
         self.pickPhotoButton.layer.masksToBounds = true
         self.profilePhotoImageView.layer.masksToBounds = true
         self.activityIndicator.center = self.view.center
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done , target: self, action: #selector(backToChats))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(backToChats))
         setEnabledState(enabled: dataWasChanged)
     }
 
@@ -131,6 +132,9 @@ class ProfileViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Выбрать фото", style: .default) { (_: UIAlertAction) -> Void in
             self.pickPhotoFromLibrary()
         })
+        alert.addAction(UIAlertAction(title: "Загрузить", style: .default) { (_: UIAlertAction) -> Void in
+            self.downloadPhoto()
+        })
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
 
         self.present(alert, animated: true, completion: nil)
@@ -152,7 +156,7 @@ class ProfileViewController: UIViewController {
             model.picture = profilePhotoImageView.image
         }
         
-        model.save() { [weak self] error in
+        model.save { [weak self] error in
             if !error {
                 self?.showSuccessAlert()
             } else {
@@ -173,13 +177,12 @@ class ProfileViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    
     private func showErrorAlert() {
         let alertController = UIAlertController(title: "Error", message: "could not save data", preferredStyle: .alert)
         alertController.view.tintColor = UIColor.black
         alertController.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
-        alertController.addAction(UIAlertAction(title: "Retry", style: .default) { action in
-            self.saveButtonPressed(self);
+        alertController.addAction(UIAlertAction(title: "Retry", style: .default) { _ in
+            self.saveButtonPressed(self)
         })
         self.present(alertController, animated: true, completion: nil)
     }
@@ -253,6 +256,15 @@ extension ProfileViewController {
             showNoCameraWarn()
         }
     }
+    
+    func downloadPhoto() {
+        let controller = self.presentationAssembly.picturesViewController()
+        controller.collectionPickerDelegate = self
+        let navigationController = UINavigationController()
+        navigationController.viewControllers = [controller]
+        
+        self.present(navigationController, animated: true)
+    }
 
     func showNoCameraWarn() {
         let alertVC = UIAlertController(title: "No Camera", message: "Sorry, your device has no camera", preferredStyle: .alert)
@@ -288,7 +300,7 @@ extension ProfileViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        return true;
+        return true
     }
     
     // user edited text field
@@ -296,11 +308,20 @@ extension ProfileViewController: UITextFieldDelegate {
         setEnabledState(enabled: dataWasChanged)
     }
     
-
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
         return newLength <= 100
     }
 
+}
+
+extension ProfileViewController: PicturesViewControllerDelegateProtocol {
+    
+    func collectionPickerController(_ picker: CollectionPickerControllerProtocol, didFinishPickingImage image: UIImage) {
+        profilePhotoImageView.image = image
+        setEnabledState(enabled: true)
+        picker.close()
+    }
+    
 }

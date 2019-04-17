@@ -12,6 +12,7 @@ protocol ServicesAssemblyProtocol {
     var frService: FRServiceProtocol { get }
     var themesService: ThemesServiceProtocol { get }
     var communicationService: CommunicatorDelegate { get }
+    var picturesService: PicturesServiceProtocol { get }
 }
 
 class ServicesAssembly: ServicesAssemblyProtocol {
@@ -25,5 +26,5 @@ class ServicesAssembly: ServicesAssemblyProtocol {
     lazy var frService: FRServiceProtocol = FetchRequestService(stack: coreAssembly.coreDataStub)
     lazy var communicationService: CommunicatorDelegate = CommunicationService(dataManager: coreAssembly.dataManager, communicator: coreAssembly.multipeerCommunicator)
     lazy var themesService: ThemesServiceProtocol = ThemesService(themesManager: coreAssembly.themesManager)
-    
+    lazy var picturesService: PicturesServiceProtocol = PicturesService(requestSender: coreAssembly.requestSender)
 }

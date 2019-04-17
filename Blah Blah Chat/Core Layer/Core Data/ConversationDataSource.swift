@@ -11,7 +11,7 @@ import CoreData
 
 class ConversationDataSource: NSObject {
     
-    var delegate: DataSourceDelegate?
+    weak var delegate: DataSourceDelegate?
     var fetchedResultsController: NSFetchedResultsController<Conversation>
     
     init(delegate: DataSourceDelegate, fetchRequest: NSFetchRequest<Conversation>, context: NSManagedObjectContext) {
@@ -77,4 +77,3 @@ extension ConversationDataSource: NSFetchedResultsControllerDelegate {
         }
     }
 }
-

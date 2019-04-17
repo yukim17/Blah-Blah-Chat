@@ -14,8 +14,8 @@ protocol DataManager: class {
     func appendConversation(id: String, userName: String)
     func makeConversationOffline(id: String)
     func readConversation(id: String)
-    func loadAppUser(completion: @escaping (AppUserData?) -> ())
-    func saveAppUser(_ profile: AppUserData, completion: @escaping (Bool) -> ())
+    func loadAppUser(completion: @escaping (AppUserData?) -> Void)
+    func saveAppUser(_ profile: AppUserData, completion: @escaping (Bool) -> Void)
     
 }
 
@@ -38,7 +38,7 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
     }
     
     // MARK: - DataManager Protocol
-    func loadAppUser(completion: @escaping (AppUserData?) -> ()) {
+    func loadAppUser(completion: @escaping (AppUserData?) -> Void) {
         guard let appUser: AppUser = findOrInsert(entityName: "AppUser") else {
             completion(nil)
             return
@@ -53,7 +53,7 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         completion(profile)
     }
 
-    func saveAppUser(_ profile: AppUserData, completion: @escaping (Bool) -> ()) {
+    func saveAppUser(_ profile: AppUserData, completion: @escaping (Bool) -> Void) {
         let appUser: AppUser? = findOrInsert(entityName: "AppUser")
         appUser?.name = profile.name
         appUser?.descr = profile.description
@@ -79,7 +79,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         conversation.hasUnreadMessages = false
         performSave()
     }
-    
     
     func appendConversation(id: String, userName: String) {
         let conversation: Conversation? = withId(id, requestName: "ConversationById")
@@ -108,7 +107,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         performSave()
     }
     
-    
     func makeConversationOffline(id: String) {
         guard let user: User = withId(id, requestName: "UserById"),
             let conversation: Conversation = withId(id, requestName: "ConversationById")
@@ -123,7 +121,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         
         performSave()
     }
-    
     
     func appendMessage(text: String, conversationId: String, isIncoming: Bool) {
         guard let conversation: Conversation = withId(conversationId, requestName: "ConversationById")
@@ -141,7 +138,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         
         performSave()
     }
-    
     
     func fetchRequest<T>(_ fetchRequestName: String,
                          substitutionDictionary: [String: Any]? = nil,
@@ -161,7 +157,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         return request
     }
     
-    
     private func performSave() {
         stack.performSave(with: stack.saveContext) { error in
             DispatchQueue.main.async {
@@ -171,7 +166,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
             }
         }
     }
-    
     
     private func findOrInsert<T>(entityName: String) -> T? where T: NSManagedObject {
         let request: NSFetchRequest<T> = NSFetchRequest<T>(entityName: entityName)
@@ -186,7 +180,6 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
         return object
     }
     
-    
     private func withId<T>(_ id: String, requestName: String) -> T? where T: NSManagedObject {
         guard let request: NSFetchRequest<T> =
             fetchRequest(requestName, substitutionDictionary: ["id": id]),
@@ -196,4 +189,3 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
     }
     
 }
-

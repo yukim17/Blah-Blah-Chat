@@ -46,7 +46,6 @@ class CommunicationService: CommunicatorDelegate {
     var communicator: Communicator
     private let dataManager: DataManager
     
-    
     init(dataManager: DataManager, communicator: Communicator) {
         self.dataManager = dataManager
         self.communicator = communicator
@@ -54,11 +53,9 @@ class CommunicationService: CommunicatorDelegate {
         self.communicator.delegate = self
     }
     
-    
     func didFoundUser(id: String, name: String) {
         dataManager.appendConversation(id: id, userName: name)
     }
-    
     
     func didLostUser(id: String) {
         dataManager.makeConversationOffline(id: id)
@@ -68,27 +65,23 @@ class CommunicationService: CommunicatorDelegate {
         dataManager.appendMessage(text: text, conversationId: user, isIncoming: false)
     }
     
-    
     func didReceiveMessage(text: String, from user: String) {
         dataManager.appendMessage(text: text, conversationId: user, isIncoming: true)
     }
-    
     
     func didReadConversation(id: String) {
         dataManager.readConversation(id: id)
     }
     
-    
     func failedToStartBrowsingForUsers(error: Error) {
-        print("Failed To Start Browsing For Users:",error.localizedDescription)
+        print("Failed To Start Browsing For Users:", error.localizedDescription)
         let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Done", style: .cancel))
         alertController.present(alertController, animated: true, completion: nil)
     }
     
-    
     func failedToStartAdvertising(error: Error) {
-        print("Failed To Start Advertising:",error.localizedDescription)
+        print("Failed To Start Advertising:", error.localizedDescription)
         let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Done", style: .cancel))
         alertController.present(alertController, animated: true, completion: nil)

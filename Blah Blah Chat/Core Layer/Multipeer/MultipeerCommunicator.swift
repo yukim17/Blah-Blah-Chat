@@ -50,9 +50,8 @@ class MultipeerCommunicator: NSObject, Communicator {
         return session
     }()
     
-    func sendMessage(text: String, to userId: String, completionHandler: ((_ success: Bool, _ error: Error?) -> ())) {
-        guard let index = session.connectedPeers.index(where: {
-            (item) -> Bool in
+    func sendMessage(text: String, to userId: String, completionHandler: ((_ success: Bool, _ error: Error?) -> Void)) {
+        guard let index = session.connectedPeers.index(where: { (item) -> Bool in
             item.displayName == userId }) else { return  }
         
         let message = ["eventType": "TextMessage",
@@ -64,8 +63,7 @@ class MultipeerCommunicator: NSObject, Communicator {
             try session.send(json, toPeers: [session.connectedPeers[index]], with: .reliable)
             delegate?.didSendMessage(text: text, to: userId)
             completionHandler(true, nil)
-        }
-        catch {
+        } catch {
             completionHandler(false, error)
         }
     }
@@ -88,15 +86,14 @@ extension MultipeerCommunicator: MCNearbyServiceAdvertiserDelegate {
 extension MultipeerCommunicator: MCSessionDelegate {
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        if (state == .connected) {
+        if state == .connected {
             print("Info: State changed to connected")
         }
     }
     
-    
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         do {
-            let myJson = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! Dictionary<String, String>
+            let myJson = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: String]
             
             if let text = myJson["text"] {
                 delegate?.didReceiveMessage(text: text, from: peerID.displayName)
@@ -105,19 +102,15 @@ extension MultipeerCommunicator: MCSessionDelegate {
             print("Error: Can't parse response")
         }
     }
-    
-    
+
     func session(_ session: MCSession, didReceiveCertificate certificate: [Any]?, fromPeer peerID: MCPeerID, certificateHandler: @escaping (Bool) -> Void) {
         certificateHandler(true)
     }
-    
-    
+
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }
-    
-    
+
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) { }
-    
-    
+
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) { }
     
 }
