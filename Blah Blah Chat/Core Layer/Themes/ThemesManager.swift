@@ -20,13 +20,11 @@ class ThemesManager: ThemesManagerProtocol {
             if save {
                 UserDefaults.standard.setColor(color: theme, forKey: "Theme")
             }
-
             DispatchQueue.main.async {
                 UINavigationBar.appearance().backgroundColor = theme
                 UINavigationBar.appearance().barTintColor = theme
                 UINavigationBar.appearance().tintColor = UIColor.black
                 UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-
                 let windows = UIApplication.shared.windows as [UIWindow]
                 for window in windows {
                     let subviews = window.subviews as [UIView]

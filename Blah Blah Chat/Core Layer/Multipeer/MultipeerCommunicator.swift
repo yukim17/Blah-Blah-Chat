@@ -104,7 +104,9 @@ extension MultipeerCommunicator: MCSessionDelegate {
     }
 
     func session(_ session: MCSession, didReceiveCertificate certificate: [Any]?, fromPeer peerID: MCPeerID, certificateHandler: @escaping (Bool) -> Void) {
-        certificateHandler(true)
+        if certificateHandler != nil {
+            certificateHandler(true)
+        }
     }
 
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }

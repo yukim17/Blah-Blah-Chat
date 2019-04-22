@@ -26,6 +26,7 @@ class ProfileViewController: UIViewController {
     
     private var editingMode: Bool = false
     private var model: AppUserModelProtocol
+    private var emitter: Emitter!
     
     init(model: AppUserModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
         self.model = model
@@ -47,6 +48,7 @@ class ProfileViewController: UIViewController {
         self.desciptionTextField.delegate = self
         self.nameTextField.delegate = self
         self.nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        self.desciptionTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         self.nameTextField.autocorrectionType = UITextAutocorrectionType.no
         self.desciptionTextField.autocorrectionType = UITextAutocorrectionType.no
@@ -110,6 +112,7 @@ class ProfileViewController: UIViewController {
     @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
         self.editingMode = true
         self.setEnabledState(enabled: false)
+        self.animateSaveButton(enabled: false)
         self.setEditingState(editing: true)
     }
 
@@ -168,6 +171,7 @@ class ProfileViewController: UIViewController {
         self.editingMode = false
         self.setEditingState(editing: false)
         self.setEnabledState(enabled: false)
+        self.animateSaveButton(enabled: false)
     }
     
     private func showSuccessAlert() {
@@ -206,6 +210,24 @@ extension ProfileViewController {
 
     private func setEnabledState(enabled: Bool) {
         self.saveButton.isEnabled = enabled
+    }
+    
+    private func animateSaveButton(enabled: Bool) {
+        var buttonFrame : CGRect = self.saveButton.frame
+        UIView.animate(withDuration: 1.0, delay: 0, options:
+            [], animations: {
+                
+                self.saveButton.alpha = enabled ? 1.0 : 0.2
+                let originX = buttonFrame.origin.x
+                let originY = buttonFrame.origin.y
+                
+                let originWidth = buttonFrame.size.width
+                let originHeight = buttonFrame.size.height
+                
+                self.saveButton.frame = CGRect(x: originX + originWidth*0.15/2, y: originY + originHeight*0.15/2, width: originWidth - originWidth*0.15, height: originHeight - originHeight*0.15)
+                
+        }, completion: { finished in
+        })
     }
 
 }
@@ -270,6 +292,7 @@ extension ProfileViewController {
         let alertVC = UIAlertController(title: "No Camera", message: "Sorry, your device has no camera", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertVC.addAction(okAction)
+        self.emitter = Emitter(view: (navigationController?.view)!)
         present(alertVC, animated: true, completion: nil)
     }
 
@@ -283,6 +306,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.profilePhotoImageView.image = image
             setEnabledState(enabled: dataWasChanged)
+            animateSaveButton(enabled: dataWasChanged)
         } else {
             // error occured
             print("Error picking image")
@@ -306,6 +330,7 @@ extension ProfileViewController: UITextFieldDelegate {
     // user edited text field
     @objc func textFieldDidChange(_ textField: UITextField) {
         setEnabledState(enabled: dataWasChanged)
+        animateSaveButton(enabled: dataWasChanged)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

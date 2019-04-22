@@ -14,7 +14,7 @@ class ThemesViewControllerSwift: UIViewController {
     
     init(model: ThemesModelProtocol) {
         self.model = model
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: "ThemesViewController", bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

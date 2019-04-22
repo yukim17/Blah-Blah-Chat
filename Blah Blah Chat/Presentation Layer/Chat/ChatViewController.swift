@@ -22,12 +22,14 @@ class ChatViewController: UIViewController, UITableViewDelegate {
     }
     @IBOutlet var messageTextField: UITextField!
     @IBOutlet var sendButton: UIButton!
+    private var titleLabel: UILabel!
     
     private var model: ChatModel
     var sendButtonLocked = false
     
     init(model: ChatModel) {
         self.model = model
+        titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 30))
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,6 +40,7 @@ class ChatViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.setupNavigationTitle()
         self.messageTextField.delegate = self
         messageTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         self.setupTableView()
@@ -49,6 +52,14 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         } else {
             setupNoMessagesView()
         }
+    }
+    
+    private func setupNavigationTitle() {
+        navigationItem.titleView = titleLabel
+        titleLabel.textColor = UIColor.black
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        titleLabel.text = model.conversation.user?.name
     }
     
     private func setupTableView() {
@@ -80,14 +91,16 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         noMessagesLabel.font = UIFont.systemFont(ofSize: 14)
         noMessagesLabel.textAlignment = .center
         self.messagesTableView.tableHeaderView = noMessagesLabel
+        self.messagesTableView.tableHeaderView?.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if  model.conversation.isOnline {
-            self.enableControls()
+        model.setUserConnectionTracker(self)
+        if model.conversation.isOnline == false {
+            changeControlsState(enabled: false)
         } else {
-            self.disableControls()
+            performAnimationSetLabelState(titleLabel, enabled: true)
         }
     }
 
@@ -110,9 +123,15 @@ class ChatViewController: UIViewController, UITableViewDelegate {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if textField == messageTextField {
             if let text = messageTextField.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
-                sendButtonLocked = false
+                if sendButtonLocked == true {
+                    sendButtonLocked = false
+                    performAnimationSetButtonState(sendButton, enabled: true)
+                }
             } else {
-                sendButtonLocked = true
+                if sendButtonLocked == false {
+                    sendButtonLocked = true
+                    performAnimationSetButtonState(sendButton, enabled: false)
+                }
             }
         }
     }
@@ -124,7 +143,11 @@ class ChatViewController: UIViewController, UITableViewDelegate {
             model.communicationService.communicator.sendMessage(text: text, to: receiver) { [weak self] success, error in
                 if success {
                     self?.messageTextField.text = nil
-                    self?.sendButtonLocked = true
+                    if sendButtonLocked == false {
+                        self?.sendButtonLocked = true
+                        performAnimationSetButtonState(sendButton, enabled: false)
+                    }
+                    self?.messagesTableView.tableHeaderView = nil
                 } else {
                     let alert = UIAlertController(title: "Error occured", message: error?.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "done", style: .cancel))
@@ -205,7 +228,7 @@ extension ChatViewController {
     @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
-            self.view.frame.origin.y = -keyboardRectangle.height
+            self.view.frame.origin.y = -keyboardRectangle.height + 30
         }
     }
 
@@ -215,21 +238,77 @@ extension ChatViewController {
 }
 
 // MARK: - Enable/disable controls
+extension ChatViewController: UserConnectionTrackerProtocol {
+    
+    func changeControlsState(enabled: Bool) {
+        if enabled {
+            // set controls on
+            DispatchQueue.main.async {
+                self.textFieldDidChange(self.messageTextField)
+                self.messageTextField.isEnabled = true
+                self.performAnimationSetLabelState(self.titleLabel, enabled: true)
+            }
+        } else {
+            // set controls off
+            DispatchQueue.main.async {
+                self.messageTextField.isEnabled = false
+                self.performAnimationSetLabelState(self.titleLabel, enabled: false)
+                if self.sendButtonLocked == false {
+                    self.sendButtonLocked = true
+                    self.performAnimationSetButtonState(self.sendButton, enabled: false)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Animations
 extension ChatViewController {
     
-    func enableControls() {
-        DispatchQueue.main.async {
-            self.textFieldDidChange(self.messageTextField)
-            self.messageTextField.isEnabled = true
-            self.sendButtonLocked = false
+    private func performAnimationSetButtonState(_ button: UIButton, enabled: Bool) {
+        if enabled {
+            UIView.animate(withDuration: 1, animations: { () -> Void in
+                button.setTitleColor(UIColor.green, for: .normal)
+            })
+            UIView.animate(withDuration: 0.5,
+                           animations: {
+                            button.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+            },
+                           completion: { _ in
+                            UIView.animate(withDuration: 0.5) {
+                                button.transform = CGAffineTransform.identity
+                            }
+            })
+        } else {
+            UIView.animate(withDuration: 1, animations: { () -> Void in
+                button.setTitleColor(UIColor.red, for: .normal)
+            })
+            UIView.animate(withDuration: 0.5,
+                           animations: {
+                            button.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+            },
+                           completion: { _ in
+                            UIView.animate(withDuration: 0.5) {
+                                button.transform = CGAffineTransform.identity
+                            }
+            })
         }
     }
     
-    func disableControls() {
-        DispatchQueue.main.async {
-            self.sendButtonLocked = true
-            self.messageTextField.isEnabled = false
+    private func performAnimationSetLabelState(_ label: UILabel, enabled: Bool) {
+        
+        if enabled {
+            // user is online
+            UIView.animate(withDuration: 1, animations: { () -> Void in
+                label.textColor = UIColor.green
+                label.transform = CGAffineTransform(scaleX: 1.10, y: 1.10)
+            })
+        } else {
+            // user is offline
+            UIView.animate(withDuration: 1, animations: { () -> Void in
+                label.textColor = UIColor.black
+                label.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            })
         }
     }
-    
 }

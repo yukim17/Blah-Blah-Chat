@@ -34,4 +34,9 @@ class ChatModel: ChatModelProtocol {
         self.frService = frService
         self.conversation = conversation
     }
+    
+    // MARK: - UserConnectionTracker
+    func setUserConnectionTracker(_ tracker: UserConnectionTrackerProtocol) {
+        self.communicationService.connectionTracker = tracker
+    }
 }

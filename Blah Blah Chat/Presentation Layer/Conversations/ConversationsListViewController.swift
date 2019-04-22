@@ -14,6 +14,7 @@ class ConversationsListViewController: UIViewController {
     
     private var model: ConversationModelProtocol
     private let presentationAssembly: PresentationAssemblyProtocol
+    private var emitter: Emitter!
     
     init(model: ConversationModelProtocol, presentationAssembly: PresentationAssemblyProtocol) {
         self.model = model
@@ -68,7 +69,7 @@ class ConversationsListViewController: UIViewController {
         let controller = presentationAssembly.profileViewController()
         let navigationController = UINavigationController()
         navigationController.viewControllers = [controller]
-
+        emitter = Emitter(view: navigationController.view)
         present(navigationController, animated: true)
     }
 
@@ -78,9 +79,9 @@ class ConversationsListViewController: UIViewController {
             controller.view.backgroundColor = theme
             self?.model.saveSettings(for: theme)
         }
-
         let navigationController = UINavigationController()
         navigationController.viewControllers = [controller]
+        emitter = Emitter(view: navigationController.view)
         present(navigationController, animated: true)
     }
 
@@ -109,17 +110,6 @@ extension ConversationsListViewController: UITableViewDataSource {
             return 0
         }
         return sectionsCount
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Online"
-        case 1:
-            return "History"
-        default:
-            return ""
-        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

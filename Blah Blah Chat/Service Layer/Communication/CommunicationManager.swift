@@ -8,8 +8,13 @@
 
 import UIKit
 
+protocol UserConnectionTrackerProtocol {
+    func changeControlsState(enabled: Bool)
+}
+
 protocol CommunicatorDelegate: class {
     var communicator: Communicator { get }
+    var connectionTracker: UserConnectionTrackerProtocol? { get set }
     
     // discovery
     func didFoundUser(id: String, name: String)
@@ -27,37 +32,24 @@ protocol CommunicatorDelegate: class {
     func didReadConversation(id: String)
 }
 
-protocol CommunicationManagerUsersDelegate: class {
-    var onlineConversations: [Conversation] {get set}
-    var offlineConversations: [Conversation] {get set}
-
-    func updateConversationList()
-}
-
-protocol CommunicationManagerChatDelegate: class {
-    var userName: String {get}
-
-    func didRecieveMessage(message: Message)
-    func userBecomeOffline()
-    func userBecomeOnline()
-}
-
 class CommunicationService: CommunicatorDelegate {
     var communicator: Communicator
     private let dataManager: DataManager
+    var connectionTracker: UserConnectionTrackerProtocol?
     
     init(dataManager: DataManager, communicator: Communicator) {
         self.dataManager = dataManager
         self.communicator = communicator
-        
         self.communicator.delegate = self
     }
     
     func didFoundUser(id: String, name: String) {
+        connectionTracker?.changeControlsState(enabled: true)
         dataManager.appendConversation(id: id, userName: name)
     }
     
     func didLostUser(id: String) {
+        connectionTracker?.changeControlsState(enabled: false)
         dataManager.makeConversationOffline(id: id)
     }
     
