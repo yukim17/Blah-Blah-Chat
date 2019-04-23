@@ -67,6 +67,7 @@ class CoreDataManager: DataManager, CoreDataStackProtocol {
                 if error != nil {
                     completion(true)
                 } else {
+                    UserDefaults.standard.setValue(profile.name, forKey: "Username")
                     completion(false)
                 }
             }

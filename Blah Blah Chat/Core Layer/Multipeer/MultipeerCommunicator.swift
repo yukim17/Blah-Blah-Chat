@@ -19,15 +19,24 @@ class MultipeerCommunicator: NSObject, Communicator {
     weak var delegate: CommunicatorDelegate?
     private let serviceType = "tinkoff-chat"
     
-    private let myPeerId = MCPeerID(displayName: UIDevice.current.name)
+    private var myPeerId: MCPeerID = {
+        if let peer = UserDefaults.standard.peerIdForKey(key: "MyPeerId") {
+            return peer
+        } else {
+            let newPeer = MCPeerID(displayName: UIDevice.current.name)
+            UserDefaults.standard.setPeerId(peer: newPeer, forKey: "MyPeerId")
+            return newPeer
+        }
+    }()
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
     
     var online: Bool
     
     override init() {
-        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: ["userName": UIDevice.current.name], serviceType: serviceType)
-        serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
+        let username = UserDefaults.standard.string(forKey: "Username")
+        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: self.myPeerId, discoveryInfo: ["userName": username ?? UIDevice.current.name], serviceType: serviceType)
+        serviceBrowser = MCNearbyServiceBrowser(peer: self.myPeerId, serviceType: serviceType)
         online = true
         
         super.init()
@@ -104,9 +113,7 @@ extension MultipeerCommunicator: MCSessionDelegate {
     }
 
     func session(_ session: MCSession, didReceiveCertificate certificate: [Any]?, fromPeer peerID: MCPeerID, certificateHandler: @escaping (Bool) -> Void) {
-        if certificateHandler != nil {
             certificateHandler(true)
-        }
     }
 
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }

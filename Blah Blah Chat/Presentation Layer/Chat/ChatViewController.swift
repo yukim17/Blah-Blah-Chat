@@ -44,7 +44,6 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         self.messageTextField.delegate = self
         messageTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         self.setupTableView()
-        self.setupKeyboard()
         self.model.dataSource = MessagesDataSource(delegate: messagesTableView, fetchRequest: model.frService.messagesInConversation(with: model.conversation.conversationId!)!, context: model.frService.saveContext)
         
         if let count = model.conversation.messages?.count, count > 0 {
@@ -94,6 +93,11 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         self.messagesTableView.tableHeaderView?.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupKeyboard()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         model.setUserConnectionTracker(self)
@@ -102,11 +106,6 @@ class ChatViewController: UIViewController, UITableViewDelegate {
         } else {
             performAnimationSetLabelState(titleLabel, enabled: true)
         }
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        self.messagesTableView.scrollToBottom(animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -205,7 +204,7 @@ extension ChatViewController: UITextFieldDelegate {
     
     // hide the keyboard after pressing return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.resignFirstResponder()
+        textField.resignFirstResponder()
         return true
     }
     
@@ -222,18 +221,25 @@ extension ChatViewController: UITextFieldDelegate {
 extension ChatViewController {
 
     @objc func hideKeyboard(_ sender: UITapGestureRecognizer) {
-        self.messageTextField.resignFirstResponder()
+        self.messageTextField.endEditing(true)
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            self.view.frame.origin.y = -keyboardRectangle.height + 30
+            if self.view.frame.origin.y >= 0 {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                self.view.frame.origin.y -= keyboardRectangle.height
+            }
         }
     }
 
     @objc func keyboardWillHide(_ notification: Notification) {
-        self.view.frame.origin.y = 0
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            if self.view.frame.origin.y < 0 {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                self.view.frame.origin.y += keyboardRectangle.height
+            }
+        }
     }
 }
 

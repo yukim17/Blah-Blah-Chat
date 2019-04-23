@@ -106,7 +106,8 @@ class ProfileViewController: UIViewController {
         self.profilePhotoImageView.layer.masksToBounds = true
         self.activityIndicator.center = self.view.center
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(backToChats))
-        setEnabledState(enabled: dataWasChanged)
+        setEnabledState(enabled: false)
+        setEditingState(editing: false)
     }
 
     @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
@@ -213,7 +214,7 @@ extension ProfileViewController {
     }
     
     private func animateSaveButton(enabled: Bool) {
-        var buttonFrame : CGRect = self.saveButton.frame
+        let buttonFrame: CGRect = self.saveButton.frame
         UIView.animate(withDuration: 1.0, delay: 0, options:
             [], animations: {
                 
@@ -226,7 +227,7 @@ extension ProfileViewController {
                 
                 self.saveButton.frame = CGRect(x: originX + originWidth*0.15/2, y: originY + originHeight*0.15/2, width: originWidth - originWidth*0.15, height: originHeight - originHeight*0.15)
                 
-        }, completion: { finished in
+        }, completion: { _ in
         })
     }
 
@@ -238,14 +239,20 @@ extension ProfileViewController {
 
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            self.view.frame.origin.y = -keyboardHeight
-            print("keyboard height is:", keyboardHeight)
+            if self.view.frame.origin.y >= 0 {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                self.view.frame.origin.y -= keyboardRectangle.height
+            }
         }
     }
 
     @objc func keyboardWillHide(sender: NSNotification) {
-        self.view.frame.origin.y = 0
+        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            if self.view.frame.origin.y < 0 {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                self.view.frame.origin.y += keyboardRectangle.height
+            }
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
